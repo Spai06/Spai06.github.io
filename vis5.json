@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Fire Danger Season Length, Southern Australia 1950–2023 (Multi-Layer Line + Regression)",
   "data": {
-    "url": "../Data/ffdi_annual.csv"
+    "url": "ffdi_annual.csv"
   },
   "width": "container",
   "height": 420,
