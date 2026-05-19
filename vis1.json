@@ -11,7 +11,7 @@
   "height": 650,
   "background": "#0d0b09",
   "data": {
-    "url": "../Data/fire_archive_M6_101673.csv"
+    "url": "fire_archive_M6_101673.csv"
   },
   "params": [
     {
