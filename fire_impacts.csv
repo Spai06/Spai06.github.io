@@ -1,0 +1,24 @@
+event,year,era,deaths,homes,source
+Black Summer NSW,2019,Post-2000,26,2448,AIDR
+Black Summer VIC,2019,Post-2000,5,300,AIDR
+Black Summer SA,2019,Post-2000,4,140,AIDR
+Black Summer QLD,2019,Post-2000,0,49,AIDR
+Black Saturday VIC,2009,Post-2000,180,2100,AIDR/EM-DAT
+Canberra Fires ACT,2003,Post-2000,4,500,AIDR/EM-DAT
+Waroona Yarloop WA,2016,Post-2000,2,160,AIDR
+Wye River VIC,2015,Post-2000,0,116,AIDR
+Tathra NSW,2018,Post-2000,0,65,AIDR
+Sir Ivan NSW,2017,Post-2000,0,35,AIDR
+East Vic Fires,2019,Post-2000,0,31,AIDR
+Blue Mountains NSW,2013,Post-2000,2,200,EM-DAT
+Pinery SA,2015,Post-2000,2,83,EM-DAT
+Eyre Peninsula SA,2005,Post-2000,9,93,EM-DAT
+Christmas 2001 VIC,2001,Post-2000,3,41,Wikipedia
+Carwoola NSW,2017,Post-2000,0,11,AIDR
+Ash Wednesday VIC/SA,1983,Pre-2000,75,2500,Wikipedia
+Black Friday VIC,1939,Pre-2000,71,3700,Wikipedia
+Hobart Fires TAS,1967,Pre-2000,62,900,Wikipedia
+Red Tuesday VIC,1898,Pre-2000,12,2000,AIDR
+Dwellingup WA,1961,Pre-2000,0,160,Wikipedia
+Black Thursday VIC,1851,Pre-2000,12,0,AIDR
+Longford VIC,1944,Pre-2000,15,700,Wikipedia

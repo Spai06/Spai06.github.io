@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australian Fire Hotspots Analysis (2005-2020)",
+    "subtitle": "Proportional Symbol Map with Dynamic State Detection",
+    "color": "#e68f0c",
+    "anchor": "start",
+    "fontSize": 18
+  },
+  "width": 900,
+  "height": 650,
+  "background": "#0d0b09",
+  "data": {
+    "url": "../Data/fire_archive_M6_101673.csv"
+  },
+  "params": [
+    {
+      "name": "State_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null, "New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory"
+        ],
+        "labels": [
+          "Show All Australia", "New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory"
+        ],
+        "name": "Select State: "
+      }
+    },
+    {
+      "name": "Min_Confidence",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "name": "Min Confidence: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "datum.latitude < -39 ? 'Tasmania' : datum.longitude < 129 ? 'Western Australia' : (datum.longitude < 138 ? (datum.latitude > -26 ? 'Northern Territory' : 'South Australia') : (datum.longitude < 141 ? (datum.latitude > -26 ? 'Queensland' : 'South Australia') : (datum.latitude > -28.5 ? 'Queensland' : (datum.latitude > -37.5 ? 'New South Wales' : 'Victoria'))))",
+      "as": "state_calc"
+    },
+    {
+      "filter": "State_selection == null || datum.state_calc == State_selection"
+    },
+    {
+      "filter": "datum.confidence >= Min_Confidence"
+    }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-134, 0, 0],
+    "center": [0, -27],
+    "scale": 1000
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/tonywr71/GeoJson-Data/master/australian-states.json",
+        "format": { "type": "json" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#1a1714",
+        "stroke": "#5a4d38",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.4,
+        "size": 2
+      },
+      "encoding": {
+        "longitude": { "field": "longitude", "type": "quantitative" },
+        "latitude": { "field": "latitude", "type": "quantitative" },
+        "size": {
+          "field": "frp",
+          "type": "quantitative",
+          "scale": { "type": "sqrt", "range": [1, 500] },
+          "title": "Fire Power (MW)",
+          "legend": {
+            "symbolFillColor": "#dcd1bd",
+            "symbolOpacity": 1,
+            "symbolStrokeColor": "transparent"
+          }
+        },
+        "color": {
+          "field": "brightness",
+          "type": "quantitative",
+          "scale": {
+            "domain": [300, 380],
+            "range": ["#ffcc00", "#ff6600", "#cc0000"]
+          },
+          "title": "Temp (K)"
+        },
+        "tooltip": [
+          { "field": "state_calc", "type": "nominal", "title": "Detected State" },
+          { "field": "acq_date", "type": "nominal", "title": "Date" },
+          { "field": "frp", "type": "quantitative", "title": "FRP" },
+          { "field": "confidence", "type": "quantitative", "title": "Confidence %" }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": "transparent" },
+    "legend": {
+      "titleColor": "#f0e6d2",
+      "labelColor": "#dcd1bd"
+    }
+  }
+}

@@ -1,0 +1,347 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Annual Mean Temperature Anomaly, Australia 1910–2023",
+
+  "data": {
+    "url": "../Data/bom_temperature.csv"
+  },
+
+  "transform": [
+    {
+      "calculate": "datetime(datum.year, 0, 1)",
+      "as": "date"
+    }
+  ],
+
+  "width": "container",
+  "height": 400,
+
+  "layer": [
+
+    {
+      "transform": [
+        {
+          "calculate": "datum.anomaly >= 0 ? '+' + format(datum.anomaly, '.2f') : format(datum.anomaly, '.2f')",
+          "as": "formatted_anomaly"
+        },
+        {
+          "calculate": "datum.anomaly >= 0 ? 'Above baseline (0°C)' : 'Below baseline (0°C)'",
+          "as": "direction"
+        }
+      ],
+
+      "mark": {
+        "type": "bar",
+        "opacity": 0.75
+      },
+
+      "encoding": {
+
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "axis": {
+            "title": "Year",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "labelColor": "#8a8a8a",
+            "titleColor": "#8a8a8a",
+            "format": "%Y"
+          }
+        },
+
+        "y": {
+          "field": "anomaly",
+          "type": "quantitative",
+          "axis": {
+            "title": "Temperature Anomaly (°C)",
+            "labelFont": "DM Sans",
+            "titleFont": "DM Sans",
+            "labelColor": "#8a8a8a",
+            "titleColor": "#8a8a8a"
+          }
+        },
+
+        "color": {
+          "field": "anomaly",
+          "type": "quantitative",
+          "scale": {
+            "domain": [-1.5, 0, 1.5],
+            "range": ["#6ab0d8", "#f5eddf", "#be2f18"]
+          },
+          "legend": {
+            "title": "Temperature Anomaly",
+            "titleColor": "#8a8a8a",
+            "labelColor": "#8a8a8a",
+            "orient": "right"
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "formatted_anomaly",
+            "type": "nominal",
+            "title": "Anomaly (°C)"
+          },
+          {
+            "field": "direction",
+            "type": "nominal",
+            "title": "Relative to baseline"
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "loess": "anomaly",
+          "on": "date",
+          "bandwidth": 0.15
+        }
+      ],
+
+      "mark": {
+        "type": "line",
+        "strokeDash": [5, 3],
+        "size": 2,
+        "color": "#e68f0c",
+        "opacity": 0.9
+      },
+
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" },
+        "y": { "field": "anomaly", "type": "quantitative" }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#2e2619",
+        "opacity": 0.4,
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "y": { "datum": 0 }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "x1": 1972,
+            "y1": 1.15,
+            "x2": 2019,
+            "y2": 1.52
+          }
+        ]
+      },
+
+      "transform": [
+        { "calculate": "datetime(datum.x1,0,1)", "as": "date1" },
+        { "calculate": "datetime(datum.x2,0,1)", "as": "date2" }
+      ],
+
+      "mark": {
+        "type": "rule",
+        "color": "#c8a748",
+        "strokeWidth": 1.5
+      },
+
+      "encoding": {
+        "x": { "field": "date1", "type": "temporal" },
+        "x2": { "field": "date2" },
+        "y": { "field": "y1", "type": "quantitative" },
+        "y2": { "field": "y2", "type": "quantitative" }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "x1": 1928,
+            "y1": -1.05,
+            "x2": 1917,
+            "y2": -1.18
+          }
+        ]
+      },
+
+      "transform": [
+        { "calculate": "datetime(datum.x1,0,1)", "as": "date1" },
+        { "calculate": "datetime(datum.x2,0,1)", "as": "date2" }
+      ],
+
+      "mark": {
+        "type": "rule",
+        "color": "#c8a748",
+        "strokeWidth": 1.5
+      },
+
+      "encoding": {
+        "x": { "field": "date1", "type": "temporal" },
+        "y": { "field": "y1", "type": "quantitative" },
+        "x2": { "field": "date2" },
+        "y2": { "field": "y2", "type": "quantitative" }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "year": 1950,
+            "anomaly": 1.10,
+            "label": "Hottest year\nRecord heat + El Niño"
+          }
+        ]
+      },
+
+      "transform": [
+        {
+          "calculate": "datetime(datum.year,0,1)",
+          "as": "date"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "fill": "#c8a748",
+        "align": "left"
+      },
+
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" },
+        "y": { "field": "anomaly", "type": "quantitative" },
+        "text": { "field": "label" }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "year": 1928,
+            "anomaly": -1.05,
+            "label": "Coldest year\nLa Niña influence"
+          }
+        ]
+      },
+
+      "transform": [
+        {
+          "calculate": "datetime(datum.year,0,1)",
+          "as": "date"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "fill": "#c8a748",
+        "align": "left"
+      },
+
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" },
+        "y": { "field": "anomaly", "type": "quantitative" },
+        "text": { "field": "label" }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2011,
+            "anomaly": 0.0,
+            "label": "2011: Neutral anomaly (0.0°C)"
+          }
+        ]
+      },
+
+      "transform": [
+        {
+          "calculate": "datetime(datum.year,0,1)",
+          "as": "date"
+        }
+      ],
+
+      "mark": {
+        "type": "rule",
+        "color": "#c8a748",
+        "strokeWidth": 1.2
+      },
+
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" },
+        "y": { "field": "anomaly", "type": "quantitative" },
+        "x2": { "value": 600 },
+        "y2": { "value": 380 }
+      }
+    },
+
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2011,
+            "anomaly": 0.0,
+            "label": "2011: Neutral anomaly (0.0°C)"
+          }
+        ]
+      },
+
+      "transform": [
+        {
+          "calculate": "datetime(datum.year,0,1)",
+          "as": "date"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "fill": "#c8a748",
+        "align": "right"
+      },
+
+      "encoding": {
+        "x": { "value": 740 },
+        "y": { "value": 390 },
+        "text": { "field": "label" }
+      }
+    }
+  ],
+
+  "config": {
+
+    "background": "transparent",
+
+    "axis": {
+      "domainColor": "#2e2619",
+      "gridColor": "#2e2619",
+      "labelColor": "#8a8a8a",
+      "titleColor": "#8a8a8a"
+    },
+
+    "text": {
+      "font": "DM Sans"
+    }
+  }
+}

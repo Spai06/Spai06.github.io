@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Rainfall anomaly 2D heatmap (Year x Decade structure)",
+
+  "data": {
+    "url": "../Data/bom_rainfall.csv",
+    "format": { "type": "csv" }
+  },
+
+  "transform": [
+    {
+      "calculate": "floor(datum.year / 10) * 10",
+      "as": "decade"
+    },
+    {
+      "calculate": "datum.year % 10",
+      "as": "year_in_decade"
+    }
+  ],
+
+  "width": 900,
+  "height": 450,
+
+  "mark": {
+    "type": "rect"
+  },
+
+  "encoding": {
+
+    "x": {
+      "field": "decade",
+      "type": "ordinal",
+      "title": "Decade",
+      "axis": {
+        "labelAngle": 0,
+        "labelColor": "#c7c7c7",
+        "titleColor": "#c7c7c7",
+        "labelPadding": 10,
+        "format": "d"
+      }
+    },
+
+    "y": {
+      "field": "year_in_decade",
+      "type": "ordinal",
+      "sort": "descending",
+      "title": "Year in Decade",
+      "axis": {
+        "labelColor": "#c7c7c7",
+        "titleColor": "#c7c7c7"
+      }
+    },
+
+    "color": {
+      "field": "anomaly_mm",
+      "type": "quantitative",
+      "scale": {
+        "domain": [-200, -100, 0, 100, 200],
+        "range": [
+          "#f7fbff",
+          "#c6dbef",
+          "#6baed6",
+          "#2171b5",
+          "#08306b"
+        ]
+      },
+      "legend": {
+        "title": "Rainfall Anomaly (mm)",
+        "titleColor": "#c7c7c7",
+        "labelColor": "#c7c7c7",
+        "orient": "right"
+      }
+    },
+
+    "tooltip": [
+      { "field": "year", "type": "ordinal" },
+      { "field": "rainfall_mm", "type": "quantitative", "format": ".1f" },
+      { "field": "anomaly_mm", "type": "quantitative", "format": ".1f" },
+      { "field": "decade", "type": "ordinal" }
+    ]
+  },
+
+  "config": {
+    "background": "transparent",
+
+    "view": {
+      "stroke": null
+    },
+
+    "axis": {
+      "domainColor": "#2e2619",
+      "gridColor": "#2e2619",
+      "labelColor": "#c7c7c7",
+      "titleColor": "#c7c7c7"
+    }
+  }
+}

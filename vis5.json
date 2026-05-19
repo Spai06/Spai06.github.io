@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Fire Danger Season Length, Southern Australia 1950–2023 (Multi-Layer Line + Regression)",
+  "data": {
+    "url": "../Data/ffdi_annual.csv"
+  },
+  "width": "container",
+  "height": 420,
+  "layer": [
+    {
+      "mark": {"type": "area", "opacity": 0.15, "color": "#e68f0c"},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "ffdi_90th", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "line", "point": false, "size": 2, "color": "#d65c0c", "opacity": 0.8},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "ffdi_90th", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "point", "size": 40, "color": "#e68f0c", "opacity": 0.6},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "ffdi_90th", "type": "quantitative"},
+        "tooltip": [
+          {"field": "year", "type": "quantitative", "title": "Year"},
+          {"field": "ffdi_90th", "type": "quantitative", "format": ".2f", "title": "FFDI 90th percentile"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "regression": "ffdi_90th",
+          "on": "year",
+          "method": "linear"
+        }
+      ],
+      "mark": {"type": "line", "size": 3, "color": "#be2f18", "strokeDash": [0], "opacity": 0.9},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "ffdi_90th", "type": "quantitative"}
+      }
+    },
+    {
+      "data": {"values": [
+        {"year": 1971, "ffdi_90th": 13.5, "label": "1971:\nBaseline\n14.5", "align": "left"},
+        {"year": 2019, "ffdi_90th": 24.2, "label": "2019:\nRecord High\n+23.8", "align": "right"},
+        {"year": 2023, "ffdi_90th": 22.5, "label": "2023:\nContinued\nElevation", "align": "left"}
+      ]},
+      "mark": {"type": "text", "align": "center", "fontSize": 10, "fill": "#c8a748", "fontWeight": "500", "dy": -12},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "ffdi_90th", "type": "quantitative"},
+        "text": {"field": "label", "type": "nominal"}
+      }
+    },
+    {
+      "data": {"values": [
+        {"label": "← Lower fire danger", "x": 1971, "y": 13},
+        {"label": "Higher fire danger →", "x": 2020, "y": 13},
+        {"label": "Red line = Linear regression trend", "x": 1971, "y": 12.4}
+      ]},
+      "mark": {"type": "text", "align": "left", "fontSize": 9, "fill": "#7d7160"},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "label", "type": "nominal"}
+      }
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "axis": {
+        "title": "Year",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "labelColor": "#b2a48e",
+        "titleColor": "#b2a48e",
+        "labelFontSize": 11,
+        "titleFontSize": 12
+      }
+    },
+    "y": {
+      "field": "ffdi_90th",
+      "type": "quantitative",
+      "axis": {
+        "title": "Fire Danger Index (90th percentile)",
+        "labelFont": "DM Sans",
+        "titleFont": "DM Sans",
+        "labelColor": "#b2a48e",
+        "titleColor": "#b2a48e",
+        "labelFontSize": 11,
+        "titleFontSize": 12
+      }
+    }
+  },
+  "config": {
+    "background": "transparent",
+    "axis": {
+      "domainColor": "#3a3020",
+      "gridColor": "#1e1912",
+      "tickColor": "#3a3020"
+    },
+    "text": {"font": "DM Sans"}
+  }
+}

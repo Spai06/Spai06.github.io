@@ -1,0 +1,175 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Premium polar radial chart featuring a strict green safety barrier ring and intelligent status tooltips.",
+  "background": "transparent",
+  "title": {
+    "text": "Monthly Fire Danger Index by Decade",
+    "subtitle": "Compare selected decade against the official safety barrier (FFDI < 12)",
+    "color": "#d8d0c4",
+    "subtitleColor": "#9f9484",
+    "font": "DM Sans, sans-serif",
+    "subtitleFont": "DM Sans, sans-serif",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "config": {
+    "view": { "stroke": "transparent" },
+    "font": "DM Sans, sans-serif",
+    "legend": {
+      "labelColor": "#b2a48e",
+      "titleColor": "#7d7160",
+      "labelFont": "DM Sans, sans-serif",
+      "titleFont": "DM Sans, sans-serif",
+      "labelFontSize": 11
+    }
+  },
+  "width": 500,
+  "height": 500,
+  "params": [
+    {
+      "name": "decade_select",
+      "value": "2010s",
+      "bind": {
+        "input": "select",
+        "options": ["1970s", "1980s", "1990s", "2000s", "2010s"],
+        "name": "Select decade: "
+      }
+    }
+  ],
+  "data": {
+    "url": "../data/ffdi_polar.csv"
+  },
+  "transform": [
+    {
+      "calculate": "{'Jan':0,'Feb':1,'Mar':2,'Apr':3,'May':4,'Jun':5,'Jul':6,'Aug':7,'Sep':8,'Oct':9,'Nov':10,'Dec':11}[datum.month]",
+      "as": "month_i"
+    },
+    {
+      "calculate": "datum.ffdi_90th > 12 ? '🚨 OVER SAFETY BARRIER' : '✅ WITHIN SAFETY BARRIER'",
+      "as": "safety_status"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Background structural grid rings (fixed at values 10, 20, 30).",
+      "data": { "values": [{"score": 10}, {"score": 20}, {"score": 30}] },
+      "mark": {
+        "type": "arc",
+        "innerRadius": 40,
+        "stroke": "#2e2720",
+        "strokeWidth": 0.8,
+        "fill": "transparent"
+      },
+      "encoding": {
+        "radius": {
+          "field": "score",
+          "type": "quantitative",
+          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
+        },
+        "theta": { "value": 0 },
+        "theta2": { "value": 6.28318 }
+      }
+    },
+    {
+      "description": "SOLID GREEN SAFETY BARRIER RING: Set precisely at the official threshold limit of 12.",
+      "data": { "values": [{"safety_score": 12, "Label": "Safety Barrier (FFDI 12)"}] },
+      "mark": {
+        "type": "arc",
+        "innerRadius": 40,
+        "stroke": "#2ecc71",
+        "strokeWidth": 2.5,
+        "fill": "transparent"
+      },
+      "encoding": {
+        "radius": {
+          "field": "safety_score",
+          "type": "quantitative",
+          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
+        },
+        "theta": { "value": 0 },
+        "theta2": { "value": 6.28318 },
+        "color": {
+          "field": "Label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Safety Barrier (FFDI 12)"],
+            "range": ["#2ecc71"]
+          },
+          "legend": {
+            "title": "Thresholds",
+            "orient": "right",
+            "offset": 10
+          }
+        }
+      }
+    },
+    {
+      "description": "Primary selected decade colored radial arcs.",
+      "transform": [
+        { "filter": "datum.decade == decade_select" }
+      ],
+      "mark": {
+        "type": "arc",
+        "innerRadius": 40,
+        "stroke": "#0d0b09",
+        "strokeWidth": 1.2,
+        "opacity": 0.85
+      },
+      "encoding": {
+        "theta": {
+          "field": "month_i",
+          "type": "ordinal",
+          "sort": "ascending",
+          "band": 0.85
+        },
+        "radius": {
+          "field": "ffdi_90th",
+          "type": "quantitative",
+          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
+        },
+        "color": {
+          "field": "ffdi_90th",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 30],
+            "range": ["#1a1410", "#5d2006", "#921a11", "#be2f18", "#d65c0c", "#ff7a30"]
+          },
+          "legend": {
+            "title": "Fire Danger Index",
+            "gradientLength": 100,
+            "labelColor": "#b2a48e",
+            "titleColor": "#7d7160"
+          }
+        },
+        "tooltip": [
+          { "field": "month", "title": "Month" },
+          { "field": "decade", "title": "Selected Decade" },
+          { "field": "ffdi_90th", "title": "Current FFDI (90th pct)", "format": ".1f" },
+          { "field": "safety_status", "title": "Safety Boundary Status" }
+        ]
+      }
+    },
+    {
+      "description": "Fixed position month labels around the outer edge.",
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": 500,
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "theta": {
+          "field": "month_i",
+          "type": "ordinal",
+          "sort": "ascending",
+          "band": 0.5
+        },
+        "radius": { "value": 220 },
+        "text": { "field": "month", "type": "nominal" },
+        "color": { "value": "#b2a48e" }
+      }
+    }
+  ]
+}
