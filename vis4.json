@@ -38,7 +38,7 @@
     }
   ],
   "data": {
-    "url": "../data/ffdi_polar.csv"
+    "url": "ffdi_polar.csv"
   },
   "transform": [
     {
