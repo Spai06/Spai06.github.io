@@ -1,0 +1,163 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 780,
+  "height": 380,
+  "background": "transparent",
+  "data": { "url": "../Data/abares_summary.csv" },
+  "transform": [
+    { "filter": "datum.state !== 'NT'" },
+    {
+      "window": [{ "op": "rank", "as": "rank" }],
+      "sort": [{ "field": "hectares", "order": "descending" }],
+      "groupby": ["year"]
+    },
+    {
+      "calculate": "datum.hectares > 1000000 ? format(datum.hectares/1000000, '.2f') + 'M ha' : format(datum.hectares/1000, '.0f') + 'k hectares'",
+      "as": "hectares_label"
+    },
+    {
+      "calculate": "upper(datum.state)",
+      "as": "state_upper"
+    }
+  ],
+  "params": [
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "ACT"],
+        "labels": ["All states", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "ACT"],
+        "name": "Filter state: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "line", "strokeWidth": 3, "interpolate": "monotone" },
+      "encoding": {
+        "x": {
+          "field": "year", "type": "ordinal",
+          "axis": {
+            "title": "Fire Season/Year",
+            "labelFontSize": 12, "titleFontSize": 13, "labelAngle": 0,
+            "labelColor": "#b2a48e", "titleColor": "#d8d0c4",
+            "tickColor": "#4a4030", "domainColor": "#4a4030",
+            "gridColor": "#2e2618", "gridOpacity": 1
+          }
+        },
+        "y": {
+          "field": "rank", "type": "quantitative",
+          "scale": { "reverse": true, "domain": [1, 7] },
+          "axis": {
+            "title": "Rank by Area Burned (1 = worst)",
+            "tickCount": 7, "labelFontSize": 12, "titleFontSize": 13,
+            "values": [1, 2, 3, 4, 5, 6, 7],
+            "labelColor": "#b2a48e", "titleColor": "#d8d0c4",
+            "tickColor": "#4a4030", "domainColor": "#4a4030",
+            "gridColor": "#2e2618", "gridOpacity": 1
+          }
+        },
+        "color": {
+          "field": "state", "type": "nominal",
+          "scale": {
+            "domain": ["NSW", "Vic", "Qld", "SA", "WA", "Tas", "ACT"],
+            "range": ["#d62728", "#1f77b4", "#ff7f0e", "#8c564b", "#9467bd", "#2ca02c", "#e377c2"]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": { "test": "state_select === 'All' || datum.state === state_select", "value": 1 },
+          "value": 0.06
+        },
+        "strokeWidth": {
+          "condition": { "test": "state_select === 'All' || datum.state === state_select", "value": 3 },
+          "value": 1
+        }
+      }
+    },
+    {
+      "mark": { "type": "point", "size": 130, "filled": true, "stroke": "white", "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "rank", "type": "quantitative", "scale": { "reverse": true, "domain": [1, 7] } },
+        "color": {
+          "field": "state", "type": "nominal",
+          "scale": {
+            "domain": ["NSW", "Vic", "Qld", "SA", "WA", "Tas", "ACT"],
+            "range": ["#d62728", "#1f77b4", "#ff7f0e", "#8c564b", "#9467bd", "#2ca02c", "#e377c2"]
+          },
+          "legend": {
+            "title": "State",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 7,
+            "labelColor": "#b2a48e",
+            "titleColor": "#9f9484",
+            "labelFontSize": 12,
+            "titleFontSize": 11,
+            "symbolSize": 120,
+            "symbolStrokeWidth": 2,
+            "padding": 8,
+            "titlePadding": 6
+          }
+        },
+        "opacity": {
+          "condition": { "test": "state_select === 'All' || datum.state === state_select", "value": 1 },
+          "value": 0.06
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "year", "title": "Season" },
+          { "field": "rank", "title": "Rank" },
+          { "field": "hectares_label", "title": "Area Burned" }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "joinaggregate": [{ "op": "max", "field": "year", "as": "last_year" }],
+          "groupby": ["state"]
+        },
+        { "filter": "datum.year == datum.last_year" }
+      ],
+      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 12, "fontWeight": "bold" },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "rank", "type": "quantitative", "scale": { "reverse": true, "domain": [1, 7] } },
+        "text": { "field": "state_upper" },
+        "color": {
+          "field": "state", "type": "nominal",
+          "scale": {
+            "domain": ["NSW", "Vic", "Qld", "SA", "WA", "Tas", "ACT"],
+            "range": ["#d62728", "#1f77b4", "#ff7f0e", "#8c564b", "#9467bd", "#2ca02c", "#e377c2"]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": { "test": "state_select === 'All' || datum.state === state_select", "value": 1 },
+          "value": 0.08
+        }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.year == '2019-20' && datum.state == 'NSW'" }],
+      "mark": {
+        "type": "text", "align": "left", "dy": -18, "dx": -7,
+        "fontSize": 12, "fontStyle": "italic",
+        "color": "#ff6b6b", "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "rank", "type": "quantitative", "scale": { "reverse": true, "domain": [1, 7] } },
+        "text": { "value": "▼ Black Summer" }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": "transparent" },
+    "background": "transparent",
+    "font": "DM Sans, sans-serif"
+  }
+}
