@@ -1,14 +1,3 @@
-
-<!--
-There is no fabrication of data here. Instead of loading ABARES_SUMMARY.CSV directly,
-the total hectares burnt value is calculated by summing the values contained in that
-dataset. The resulting figures are therefore derived entirely from the original ABARES
-data and are not manually created or modified. If required, the ABARES_SUMMARY.CSV
-file can be inspected to verify that the calculations match the source data.
--->
-
-
-
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "background": "#0d1117",
