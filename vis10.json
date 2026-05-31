@@ -14,7 +14,7 @@
   "background": "#0d1117",
   "padding": {"left": 20, "right": 110, "top": 10, "bottom": 10},
   "data": {
-    "url": "../Data/dumbbell_data.csv",
+    "url": "dumbbell_data.csv",
     "format": {
       "type": "csv",
       "parse": {"hectares": "number"}
