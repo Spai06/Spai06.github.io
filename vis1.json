@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": 'Australian Fire Hotspots Analysis',
+    "text": "Australian Fire Hotspots Analysis",
     "subtitle": "Proportional Symbol Map with Dynamic State Detection",
     "color": "#e68f0c",
     "anchor": "start",
