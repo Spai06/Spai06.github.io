@@ -1,15 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Premium polar radial chart featuring a strict green safety barrier ring and intelligent status tooltips.",
   "background": "transparent",
   "title": {
     "text": "Monthly Fire Danger Index by Decade",
-    "subtitle": "Compare selected decade against the official safety barrier (FFDI < 12)",
+    "subtitle": "Each ring = one decade (innermost 1970s → outermost 2010s) · Each segment = one month · Colour = FFDI 90th percentile",
     "color": "#d8d0c4",
     "subtitleColor": "#9f9484",
     "font": "DM Sans, sans-serif",
     "subtitleFont": "DM Sans, sans-serif",
-    "fontSize": 20,
+    "fontSize": 14,
     "subtitleFontSize": 12,
     "anchor": "start"
   },
@@ -18,157 +17,191 @@
     "font": "DM Sans, sans-serif",
     "legend": {
       "labelColor": "#b2a48e",
-      "titleColor": "#7d7160",
+      "titleColor": "#d8d0c4",
       "labelFont": "DM Sans, sans-serif",
       "titleFont": "DM Sans, sans-serif",
-      "labelFontSize": 11
+      "labelFontSize": 11,
+      "titleFontSize": 12
     }
   },
   "width": 500,
   "height": 500,
-  "params": [
-    {
-      "name": "decade_select",
-      "value": "2010s",
-      "bind": {
-        "input": "select",
-        "options": ["1970s", "1980s", "1990s", "2000s", "2010s"],
-        "name": "Select decade: "
-      }
-    }
-  ],
-  "data": {
-    "url": "ffdi_polar.csv"
-  },
+  "data": { "url": "../data/ffdi_polar.csv" },
   "transform": [
     {
       "calculate": "{'Jan':0,'Feb':1,'Mar':2,'Apr':3,'May':4,'Jun':5,'Jul':6,'Aug':7,'Sep':8,'Oct':9,'Nov':10,'Dec':11}[datum.month]",
       "as": "month_i"
-    },
-    {
-      "calculate": "datum.ffdi_90th > 12 ? '🚨 OVER SAFETY BARRIER' : '✅ WITHIN SAFETY BARRIER'",
-      "as": "safety_status"
     }
   ],
+  "encoding": {
+    "color": {
+      "field": "ffdi_90th",
+      "type": "quantitative",
+      "scale": {
+        "domain": [10, 30],
+        "range": ["#2a0a00", "#5d2006", "#921a11", "#be2f18", "#d65c0c", "#ff7a30"]
+      },
+      "legend": {
+        "title": "FFDI (90th pct)",
+        "gradientLength": 200,
+        "orient": "none",
+        "legendY": 100,
+        "legendX": 545,
+        "titlePadding": 10
+      }
+    }
+  },
   "layer": [
     {
-      "description": "Background structural grid rings (fixed at values 10, 20, 30).",
-      "data": { "values": [{"score": 10}, {"score": 20}, {"score": 30}] },
-      "mark": {
-        "type": "arc",
-        "innerRadius": 40,
-        "stroke": "#2e2720",
-        "strokeWidth": 0.8,
-        "fill": "transparent"
-      },
+      "description": "1970s ring",
+      "transform": [ { "filter": "datum.decade == '1970s'" } ],
+      "mark": { "type": "arc", "innerRadius": 30, "stroke": "#0d0b09", "strokeWidth": 1.0 },
       "encoding": {
-        "radius": {
-          "field": "score",
-          "type": "quantitative",
-          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
-        },
-        "theta": { "value": 0 },
-        "theta2": { "value": 6.28318 }
-      }
-    },
-    {
-      "description": "SOLID GREEN SAFETY BARRIER RING: Set precisely at the official threshold limit of 12.",
-      "data": { "values": [{"safety_score": 12, "Label": "Safety Barrier (FFDI 12)"}] },
-      "mark": {
-        "type": "arc",
-        "innerRadius": 40,
-        "stroke": "#2ecc71",
-        "strokeWidth": 2.5,
-        "fill": "transparent"
-      },
-      "encoding": {
-        "radius": {
-          "field": "safety_score",
-          "type": "quantitative",
-          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
-        },
-        "theta": { "value": 0 },
-        "theta2": { "value": 6.28318 },
-        "color": {
-          "field": "Label",
-          "type": "nominal",
-          "scale": {
-            "domain": ["Safety Barrier (FFDI 12)"],
-            "range": ["#2ecc71"]
-          },
-          "legend": {
-            "title": "Thresholds",
-            "orient": "right",
-            "offset": 10
-          }
-        }
-      }
-    },
-    {
-      "description": "Primary selected decade colored radial arcs.",
-      "transform": [
-        { "filter": "datum.decade == decade_select" }
-      ],
-      "mark": {
-        "type": "arc",
-        "innerRadius": 40,
-        "stroke": "#0d0b09",
-        "strokeWidth": 1.2,
-        "opacity": 0.85
-      },
-      "encoding": {
-        "theta": {
-          "field": "month_i",
-          "type": "ordinal",
-          "sort": "ascending",
-          "band": 0.85
-        },
-        "radius": {
-          "field": "ffdi_90th",
-          "type": "quantitative",
-          "scale": { "rangeMin": 40, "rangeMax": 200, "domain": [0, 30] }
-        },
-        "color": {
-          "field": "ffdi_90th",
-          "type": "quantitative",
-          "scale": {
-            "domain": [0, 30],
-            "range": ["#1a1410", "#5d2006", "#921a11", "#be2f18", "#d65c0c", "#ff7a30"]
-          },
-          "legend": {
-            "title": "Fire Danger Index",
-            "gradientLength": 100,
-            "labelColor": "#b2a48e",
-            "titleColor": "#7d7160"
-          }
-        },
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.92 },
+        "radius": { "value": 64 },
         "tooltip": [
           { "field": "month", "title": "Month" },
-          { "field": "decade", "title": "Selected Decade" },
-          { "field": "ffdi_90th", "title": "Current FFDI (90th pct)", "format": ".1f" },
-          { "field": "safety_status", "title": "Safety Boundary Status" }
+          { "field": "decade", "title": "Decade" },
+          { "field": "ffdi_90th", "title": "FFDI (90th pct)", "format": ".1f" }
         ]
       }
     },
     {
-      "description": "Fixed position month labels around the outer edge.",
-      "mark": {
-        "type": "text",
-        "fontSize": 11,
-        "fontWeight": 500,
-        "align": "center",
-        "baseline": "middle"
-      },
+      "description": "1980s ring",
+      "transform": [ { "filter": "datum.decade == '1980s'" } ],
+      "mark": { "type": "arc", "innerRadius": 66, "stroke": "#0d0b09", "strokeWidth": 1.0 },
       "encoding": {
-        "theta": {
-          "field": "month_i",
-          "type": "ordinal",
-          "sort": "ascending",
-          "band": 0.5
-        },
-        "radius": { "value": 220 },
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.92 },
+        "radius": { "value": 100 },
+        "tooltip": [
+          { "field": "month", "title": "Month" },
+          { "field": "decade", "title": "Decade" },
+          { "field": "ffdi_90th", "title": "FFDI (90th pct)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "description": "1990s ring",
+      "transform": [ { "filter": "datum.decade == '1990s'" } ],
+      "mark": { "type": "arc", "innerRadius": 102, "stroke": "#0d0b09", "strokeWidth": 1.0 },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.92 },
+        "radius": { "value": 136 },
+        "tooltip": [
+          { "field": "month", "title": "Month" },
+          { "field": "decade", "title": "Decade" },
+          { "field": "ffdi_90th", "title": "FFDI (90th pct)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "description": "2000s ring",
+      "transform": [ { "filter": "datum.decade == '2000s'" } ],
+      "mark": { "type": "arc", "innerRadius": 138, "stroke": "#0d0b09", "strokeWidth": 1.0 },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.92 },
+        "radius": { "value": 172 },
+        "tooltip": [
+          { "field": "month", "title": "Month" },
+          { "field": "decade", "title": "Decade" },
+          { "field": "ffdi_90th", "title": "FFDI (90th pct)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "description": "2010s ring",
+      "transform": [ { "filter": "datum.decade == '2010s'" } ],
+      "mark": { "type": "arc", "innerRadius": 174, "stroke": "#0d0b09", "strokeWidth": 1.0 },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.92 },
+        "radius": { "value": 208 },
+        "tooltip": [
+          { "field": "month", "title": "Month" },
+          { "field": "decade", "title": "Decade" },
+          { "field": "ffdi_90th", "title": "FFDI (90th pct)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "description": "Month labels",
+      "transform": [ { "filter": "datum.decade == '2010s'" } ],
+      "mark": { "type": "text", "fontSize": 11, "fontWeight": 500, "align": "center", "baseline": "middle" },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "sort": "ascending", "band": 0.5 },
+        "radius": { "value": 224 },
         "text": { "field": "month", "type": "nominal" },
         "color": { "value": "#b2a48e" }
+      }
+    },
+    {
+      "description": "Decade labels",
+      "mark": { "type": "text", "fontSize": 9, "align": "right", "baseline": "middle", "dx": -5 },
+      "encoding": {
+        "theta": { "value": 4.712 },
+        "radius": {
+          "field": "r", "type": "quantitative",
+          "scale": { "domain": [0, 250], "rangeMin": 0, "rangeMax": 250 }
+        },
+        "text": { "field": "label", "type": "nominal" },
+        "color": { "value": "#7d7160" }
+      }
+    },
+    {
+      "description": "January pointer arrow",
+      "data": { "values": [{ "month_i": 0 }] },
+      "mark": { "type": "text", "text": "➔", "fontSize": 12, "angle": 130, "align": "left" },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "band": 0.8 },
+        "radius": { "value": 240 },
+        "color": { "value": "#ff7a30" }
+      }
+    },
+    {
+      "description": "January annotation text",
+      "data": { "values": [{ "month_i": 0 }] },
+      "mark": {
+        "type": "text",
+        "text": ["January Peak:", "Max summer heat &", "accumulated dry fuel"],
+        "fontSize": 12,
+        "align": "left",
+        "baseline": "top",
+        "dx": 20,
+        "dy": -12,
+        "lineHeight": 13
+      },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "band": 0.8 },
+        "radius": { "value": 240 },
+        "color": { "value": "#9f9484" }
+      }
+    },
+    {
+      "description": "Winter pointer arrow",
+      "data": { "values": [{ "month_i": 5 }] },
+      "mark": { "type": "text", "text": "➔", "fontSize": 12, "angle": -110, "align": "left" },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "band": 0.5 },
+        "radius": { "value": 240 },
+        "color": { "value": "#6ab0d4" }
+      }
+    },
+    {
+      "description": "Winter annotation text",
+      "data": { "values": [{ "month_i": 5 }] },
+      "mark": {
+        "type": "text",
+        "text": ["Winter months:", "Cooler temps reduce", "fire danger significantly"],
+        "fontSize": 12,
+        "align": "left",
+        "baseline": "top",
+        "dx": 20,
+        "dy": -18,
+        "lineHeight": 13
+      },
+      "encoding": {
+        "theta": { "field": "month_i", "type": "ordinal", "band": 0.5 },
+        "radius": { "value": 240 },
+        "color": { "value": "#6ab0d4" }
       }
     }
   ]
