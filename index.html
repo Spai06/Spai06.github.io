@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Australia Burning — How Climate Change Reshaped Australia's Bushfire Crisis</title>
+<title>Australia Burning: How Climate Change Reshaped Australia's Bushfire Crisis</title>
 <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.3"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.24.0"></script>
@@ -28,7 +28,16 @@
   --cream:  #faf5ec;
 
   --max-w:  1200px;
-  --gutter: clamp(1.5rem, 5vw, 4rem);
+  --gutter: clamp(1.2rem, 3.5vw, 2.5rem);
+
+  --fs-h1:        clamp(3rem, 7.5vw, 6.8rem);
+  --fs-kicker:    clamp(2rem, 2vw, 1.55rem);
+  --fs-h2:        clamp(0.75rem, 1.6vw, 1.2rem);
+  --fs-vc-title:  clamp(1.5rem, 1.4vw, 1.12rem);
+  --fs-lead:      clamp(0.88rem, 1.2vw, 1.02rem);
+  --fs-body:      0.88rem;
+  --fs-sub:       0.76rem;
+  --fs-meta:      0.62rem;
 }
 
 /* ══════════════════════════════════════
@@ -40,7 +49,8 @@ body {
   background: var(--coal);
   color: var(--paper);
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: var(--fs-body);
   line-height: 1.74;
   overflow-x: hidden;
 }
@@ -58,121 +68,112 @@ body {
 
 /* ══════════════════════════════════════
    TYPOGRAPHY HIERARCHY
-   h1        → 3.2–7.5rem  (hero title)
-   h2        → 1.6–2.4rem  (section headings)
-   .vc-title → 1.15–1.35rem (viz card subheadings — ALWAYS above all body text)
-   .lead     → 0.88–1rem   (section intros, serif)
-   .pq       → 1rem        (pull quotes — capped below .vc-title)
-   body/p    → 0.88rem     (general prose)
-   .vc-sub   → 0.68rem     (chart captions)
-   .vc-src   → 0.53rem     (source lines)
-   tiny      → 0.53–0.64rem (labels, badges)
-
-   Key rule: .vc-title min (1.15rem) > .lead max (1rem) > body (0.88rem)
-             .pq is capped at 1rem, safely below .vc-title
 ══════════════════════════════════════ */
 
-/* H1 — Hero title */
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-size: var(--fs-h1);
   font-weight: 900;
   line-height: .92;
   letter-spacing: -.03em;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 h1 .sub {
   font-style: italic;
   color: var(--ember);
   display: block;
-  font-size: .44em;
+  font-size: .42em;
   line-height: 1.25;
-  margin-top: .4rem;
+  margin-top: .35rem;
 }
 
-/* H2 — Section headings */
 h2 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--paper);
-  margin-bottom: .8rem;
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  color: #b2a48e;
+  margin-bottom: .55rem;
 }
 
-/* H3 / .vc-title — Viz card subheadings: ALWAYS larger than all body text.
-   Min: 1.15rem > lead max (1rem) > pq (1rem) > body (0.88rem) ✓         */
 .vc-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.15rem, 1.9vw, 1.35rem);
+  font-size: var(--fs-vc-title);
   font-weight: 700;
   color: var(--paper);
-  margin-bottom: .2rem;
+  margin-bottom: .15rem;
+  line-height: 1.3;
 }
 
-/* Lead — section intro, capped at 1rem (below .vc-title min of 1.15rem) */
 .lead {
   font-family: 'DM Serif Text', serif;
-  font-size: clamp(0.88rem, 1.2vw, 1rem);
-  color: #c2ae98;
-  line-height: 1.94;
-  max-width: 660px;
+  font-size: var(--fs-lead);
+  color: #c8b9a5;
+  line-height: 1.9;
+  max-width: 680px;
 }
 
-/* Body prose */
-body, p {
-  font-size: .88rem;
+p, li {
+  font-size: var(--fs-body);
+  line-height: 1.78;
 }
 
-/* Eyebrow / kicker labels */
-.eyebrow {
-  font-size: .58rem;
-  letter-spacing: .42em;
-  text-transform: uppercase;
+.kicker {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-kicker);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  text-transform: none;
   color: var(--flame);
-  margin-bottom: 1.6rem;
+  margin-bottom: .3rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: .9rem;
+  gap: .75rem;
+  line-height: 1.15;
 }
-.eyebrow::after {
+.kicker::before {
   content: '';
-  width: 48px;
-  height: 1px;
+  width: 22px;
+  height: 2px;
   background: var(--ember);
   flex-shrink: 0;
 }
 
-.kicker {
-  font-size: .68rem;
-  letter-spacing: .38em;
-  text-transform: uppercase;
-  color: var(--flame);
-  margin-bottom: .75rem;
-  display: flex;
-  align-items: center;
-  gap: .7rem;
+.vc-sub {
+  font-size: var(--fs-sub);
+  color: var(--smoke);
+  font-style: italic;
+  margin-bottom: .8rem;
+  line-height: 1.6;
+  max-width: 760px;
 }
-.kicker::before {
-  content: '';
-  width: 20px;
-  height: 1px;
-  background: var(--ember);
+
+.vc-src {
+  font-size: calc(var(--fs-meta) - .02rem);
+  color: #4a3a28;
+  margin-top: .5rem;
+  border-top: 1px solid var(--bdr);
+  padding-top: .4rem;
+  line-height: 1.65;
+}
+.vc-src a {
+  color: #7a5a38;
+  text-decoration: underline;
 }
 
 /* ══════════════════════════════════════
    HERO
 ══════════════════════════════════════ */
 .hero {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding-top: 4rem;
-  padding-bottom: 5rem;
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
   background:
     radial-gradient(ellipse 80% 55% at 54% 92%, rgba(148,34,0,.62) 0%, transparent 62%),
     radial-gradient(ellipse 38% 32% at 84% 55%, rgba(88,20,0,.34) 0%, transparent 58%),
@@ -207,10 +208,10 @@ body, p {
 .hero-intro {
   max-width: 620px;
   font-family: 'DM Serif Text', serif;
-  font-size: clamp(0.88rem, 1.2vw, 1rem); /* capped at 1rem — below .vc-title */
+  font-size: var(--fs-lead);
   color: #c9b59c;
   line-height: 1.9;
-  margin-top: 1.8rem;
+  margin-top: 1.4rem;
   text-align: center;
 }
 
@@ -218,16 +219,26 @@ body, p {
    SECTIONS
 ══════════════════════════════════════ */
 .sec {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3.2rem;
+  padding-bottom: 3.2rem;
   border-bottom: 1px solid var(--bdr);
 }
 .sec.dark   { background: var(--ash); }
 .sec.darker { background: #0e0b08; }
 
 .sec-hd {
-  margin-bottom: 2.8rem;
-  max-width: 720px;
+  margin-bottom: 1.8rem;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.sec-hd .kicker {
+  justify-content: center;
+  text-align: center;
+}
+.sec-hd .lead {
+  margin: 0 auto;
 }
 
 /* ══════════════════════════════════════
@@ -237,57 +248,37 @@ body, p {
   background: var(--char);
   border: 1px solid var(--bdr);
   border-radius: 2px;
-  padding: 1.4rem;
-  margin-bottom: 1.6rem;
+  padding: 1.2rem 1.4rem 1rem;
+  margin-bottom: 1.4rem;
   overflow: hidden;
-}
-.vc-sub {
-  font-size: .68rem;
-  color: var(--smoke);
-  font-style: italic;
-  margin-bottom: 1rem;
-  line-height: 1.62;
-  max-width: 720px;
-}
-.vc-src {
-  font-size: .53rem;
-  color: #4a3a28;
-  margin-top: .65rem;
-  border-top: 1px solid var(--bdr);
-  padding-top: .5rem;
-  line-height: 1.7;
-}
-.vc-src a {
-  color: #7a5a38;
-  text-decoration: underline;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 /* ══════════════════════════════════════
-   IMPACT CARDS
+   CHART DESCRIPTION BLOCK
 ══════════════════════════════════════ */
-.impact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 1.2rem;
-  margin: 2rem 0;
+.chart-desc {
+  background: rgba(255,255,255,.03);
+  border-left: 3px solid var(--ember);
+  padding: .8rem 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: 0 2px 2px 0;
 }
-.impact-card {
-  background: linear-gradient(135deg, var(--char) 0%, #2a1e10 100%);
-  border: 1px solid var(--bdr);
-  border-top: 3px solid var(--ember);
-  padding: 1.8rem 1.4rem;
-  text-align: center;
+.chart-desc p {
+  font-family: 'DM Serif Text', serif;
+  font-size: var(--fs-lead);
+  color: #c2ae98;
+  line-height: 1.88;
+  margin: 0;
 }
-.impact-card .icon  { font-size: 2rem; margin-bottom: .8rem; display: block; }
-.impact-card .num   { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--flame); line-height: 1; margin-bottom: .3rem; }
-.impact-card .label { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--fog); }
-.impact-card .detail{ font-size: .72rem; color: var(--smoke); margin-top: .4rem; font-style: italic; }
 
 /* ══════════════════════════════════════
    LAYOUT HELPERS
 ══════════════════════════════════════ */
-.two    { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2.2rem; align-items: start; }
-.two-eq { display: grid; grid-template-columns: 1fr 1fr;   gap: 1.6rem; }
+.two    { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; align-items: start; }
+.two-eq { display: grid; grid-template-columns: 1fr 1fr;   gap: 1.4rem; }
 @media (max-width: 860px) { .two, .two-eq { grid-template-columns: 1fr; } }
 
 /* ══════════════════════════════════════
@@ -295,52 +286,49 @@ body, p {
 ══════════════════════════════════════ */
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 2px;
-  margin-bottom: 2.8rem;
+  margin-bottom: 1.8rem;
 }
 .stat {
   background: var(--char);
-  padding: 1.6rem 1.3rem;
+  padding: 1.2rem 1rem;
   border-top: 2px solid var(--ember);
   transition: border-color .25s, transform .2s;
 }
-.stat:hover {
-  border-color: var(--heat);
-  transform: translateY(-3px);
-}
+.stat:hover { border-color: var(--heat); transform: translateY(-3px); }
 .stat-n {
   font-family: 'Playfair Display', serif;
-  font-size: 2.4rem;
+  font-size: 2.1rem;
   font-weight: 900;
   color: var(--flame);
   line-height: 1;
-  margin-bottom: .22rem;
+  margin-bottom: .18rem;
 }
 .stat-l {
-  font-size: .64rem;
+  font-size: var(--fs-meta);
   text-transform: uppercase;
   letter-spacing: .08em;
   color: var(--smoke);
 }
 
 /* ══════════════════════════════════════
-   PULL QUOTE — capped at 1rem, safely below .vc-title min of 1.15rem
+   PULL QUOTE
 ══════════════════════════════════════ */
 .pq {
   border-left: 3px solid var(--ember);
-  padding: .9rem 1.4rem;
-  margin: 1.8rem 0;
+  padding: .75rem 1.2rem;
+  margin: 1.2rem 0;
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 1rem; /* was 1.06rem — now capped below .vc-title */
+  font-size: .95rem;
   color: var(--gold);
   line-height: 1.6;
 }
 .pq cite {
   display: block;
-  margin-top: .5rem;
-  font-size: .66rem;
+  margin-top: .4rem;
+  font-size: var(--fs-meta);
   font-style: normal;
   color: var(--smoke);
   font-family: 'DM Sans', sans-serif;
@@ -354,9 +342,9 @@ body, p {
   background: rgba(190,47,24,.08);
   border: 1px solid rgba(190,47,24,.26);
   border-radius: 2px;
-  padding: .85rem 1.25rem;
-  margin: 1.3rem 0;
-  font-size: .84rem;
+  padding: .7rem 1.1rem;
+  margin: 1rem 0;
+  font-size: var(--fs-body);
   color: #ddd0be;
   line-height: 1.72;
 }
@@ -367,10 +355,10 @@ body, p {
 ══════════════════════════════════════ */
 .db {
   display: inline-block;
-  font-size: .55rem;
+  font-size: calc(var(--fs-meta) - .02rem);
   letter-spacing: .06em;
   text-transform: uppercase;
-  padding: .1rem .45rem;
+  padding: .08rem .4rem;
   border-radius: 2px;
   margin-right: .3rem;
   font-style: normal;
@@ -379,15 +367,16 @@ body, p {
 .db-a { background: rgba(214,92,12,.18);  color: #e68f0c; border: 1px solid rgba(214,92,12,.35); }
 .db-b { background: rgba(90,155,75,.15);  color: #78b858; border: 1px solid rgba(90,155,75,.3); }
 .db-c { background: rgba(74,130,185,.15); color: #6ab0d8; border: 1px solid rgba(74,130,185,.3); }
+.db-d { background: rgba(160,100,200,.15); color: #c090e8; border: 1px solid rgba(160,100,200,.3); }
 
 .ibadge {
-  font-size: .57rem;
+  font-size: calc(var(--fs-meta) - .02rem);
   letter-spacing: .06em;
   text-transform: uppercase;
   background: rgba(200,167,72,.1);
   color: var(--gold);
   border: 1px solid rgba(200,167,72,.28);
-  padding: .1rem .48rem;
+  padding: .08rem .42rem;
   border-radius: 2px;
   margin-left: .4rem;
   vertical-align: middle;
@@ -399,77 +388,65 @@ body, p {
 ══════════════════════════════════════ */
 .ds-legend {
   display: flex;
-  gap: 1.2rem;
+  gap: 1rem;
   align-items: center;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.2rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .ds-legend-item {
   display: flex;
   align-items: center;
   gap: .4rem;
-  font-size: .68rem;
+  font-size: var(--fs-sub);
   color: var(--fog);
 }
 
 /* ══════════════════════════════════════
-   V1 NARRATIVE BLOCK — contextual prose between legend and chart
+   V1 STAT STRIP
 ══════════════════════════════════════ */
-.v1-narrative {
+.v1-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  padding: 1.6rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0 1.4rem;
+  padding: 1.2rem 0;
   border-top: 1px solid var(--bdr);
   border-bottom: 1px solid var(--bdr);
-}
-@media (max-width: 700px) { .v1-narrative { grid-template-columns: 1fr; } }
-.v1-narrative p {
-  font-family: 'DM Serif Text', serif;
-  font-size: clamp(0.84rem, 1.1vw, 0.96rem);
-  color: #c2ae98;
-  line-height: 1.98;
-}
-.v1-narrative .v1-stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.2rem;
 }
 .v1-stat-item {
   display: flex;
   align-items: baseline;
-  gap: .7rem;
+  gap: .6rem;
 }
 .v1-stat-n {
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   color: var(--flame);
   line-height: 1;
   flex-shrink: 0;
 }
 .v1-stat-l {
-  font-size: .72rem;
+  font-size: var(--fs-sub);
   color: var(--fog);
   line-height: 1.5;
 }
 
 /* ══════════════════════════════════════
-   CLOSING ESSAY — capped at 1rem
+   CLOSING ESSAY
 ══════════════════════════════════════ */
 .essay {
   max-width: 640px;
   margin: 0 auto;
-  padding: 3.5rem 0;
+  padding: 2.5rem 0;
   text-align: center;
 }
 .essay p {
   font-family: 'DM Serif Text', serif;
-  font-size: 1rem; /* was 1.06rem — now capped below .vc-title */
+  font-size: var(--fs-lead);
   color: #c2ae98;
-  line-height: 2.05;
+  line-height: 2;
   font-style: italic;
 }
 
@@ -479,40 +456,30 @@ body, p {
 footer {
   background: #060402;
   border-top: 1px solid #151108;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
-  text-align: center;
+  padding-top: 2.8rem;
+  padding-bottom: 2.8rem;
 }
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 2.5rem;
-  margin-bottom: 2rem;
-  text-align: left;
-}
-@media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
 
 footer h4 {
-  font-size: .6rem;
-  letter-spacing: .28em;
+  font-size: var(--fs-meta);
+  letter-spacing: .26em;
   text-transform: uppercase;
   color: var(--flame);
-  margin-bottom: .85rem;
+  margin-bottom: .8rem;
 }
 footer p,
-footer li { font-size: .74rem; color: var(--smoke); line-height: 1.82; }
-footer ul { list-style: none; }
-footer ul li::before { content: '→ '; color: var(--ember); }
+footer li { font-size: var(--fs-sub); color: var(--smoke); line-height: 1.85; }
 
 .footer-bar {
   border-top: 1px solid #151108;
-  padding-top: 1.3rem;
+  padding-top: 1rem;
+  margin-top: 1.6rem;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: .6rem;
-  font-size: .57rem;
-  color: #201808;
+  gap: .5rem;
+  font-size: var(--fs-meta);
+  color: #3a2a14;
   text-align: center;
 }
 
@@ -523,14 +490,24 @@ footer ul li::before { content: '→ '; color: var(--ember); }
 .vega-embed summary { display: none !important; }
 
 /* ══════════════════════════════════════
-   THIN DIVIDER UTILITY
+   DIVIDER UTILITY
 ══════════════════════════════════════ */
 .flame-divider {
   text-align: center;
-  font-size: 1.4rem;
-  padding: 1.2rem 0;
-  opacity: .4;
+  font-size: 1.2rem;
+  padding: .8rem 0;
+  opacity: .35;
   letter-spacing: .5rem;
+}
+
+/* ══════════════════════════════════════
+   SECTION DIVIDER LINE
+══════════════════════════════════════ */
+.sec-rule {
+  width: 48px;
+  height: 2px;
+  background: var(--ember);
+  margin: .6rem auto 1rem;
 }
 
 </style>
@@ -542,350 +519,365 @@ footer ul li::before { content: '→ '; color: var(--ember); }
 ══════════════════════════════════════════════ -->
 <section class="hero">
   <div class="wrap hero-inner">
-    <div class="eyebrow">Data Visualisation · FIT2179 · Monash University · Semester 1, 2026</div>
     <h1>Australia Burning
       <span class="sub">How Climate Change Reshaped Australia's Bushfire Crisis</span>
     </h1>
-    <p class="hero-intro">Australia has always lived with fire — but the fires burning across this continent today are something different. Drawing on NASA satellite fire records and over a century of Bureau of Meteorology climate data, this visualisation explores how rising temperatures, prolonged drought, and longer fire seasons are transforming Australia's ancient relationship with fire into a worsening crisis. The 2019–20 Black Summer brought that transformation into sharp focus: nearly nineteen million hectares burned, billions of animals displaced, and smoke that turned the skies of Sydney and Melbourne orange for weeks. This is the story of how we got here, and where the data says we are heading.</p>
+    <p class="hero-intro">Australia has always lived with fire. The fires burning across this continent today are something different. Drawing on NASA satellite fire records and over a century of Bureau of Meteorology climate data, this visualisation explores how rising temperatures, prolonged drought, and longer fire seasons are transforming Australia's ancient relationship with fire into a worsening crisis. The 2019-20 Black Summer brought that transformation into sharp focus: nearly nineteen million hectares burned, billions of animals displaced, and smoke that turned the skies of Sydney and Melbourne orange for weeks. This is the story of how we got here, and where the data says we are heading.</p>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 1 — Australia Has Always Burned
+     SECTION 1: Australia Has Always Burned
 ══════════════════════════════════════════════ -->
 <section class="sec" id="s1">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 01 — Australia Has Always Burned</div>
-      <h2>Fire Is Part of Australia —<br>But Not Like This</h2>
+      <div class="kicker">Section 01: Australia Has Always Burned</div>
+      <h2>Fire Is Part of Australia,<br>But Not Like This</h2>
+      <div class="sec-rule"></div>
       <p class="lead">Fire has shaped the Australian continent for millions of years. Indigenous Australians practiced cultural burning for over 65,000 years. But NASA's satellite fire record, which began in 2005, reveals something new: a dramatic and sustained escalation in fire intensity concentrated in the country's most populated southeast.</p>
     </div>
 
-    <div class="ds-legend">
-      <div class="ds-legend-item"><span class="db db-a">Dataset A</span> NASA FIRMS — fire brightness, FRP, location, date (2005–2020)</div>
-      <div class="ds-legend-item"><span class="db db-b">Dataset B</span> BOM / CSIRO — temperature anomaly, rainfall, FFDI (1910–2023)</div>
-      <div class="ds-legend-item"><span class="db db-c">Dataset C</span> ABS / WWF / AIDR — human and wildlife impacts</div>
-    </div>
-
-    <!-- V1 NARRATIVE — added context for the 2019 catastrophic season -->
-    <div class="v1-narrative">
-      <div>
-        <p>The 2019 fire season was unlike anything Australia's satellite record had previously captured. From September through December, NASA's MODIS sensors aboard the Terra and Aqua satellites detected over <strong style="color:var(--heat);">148,000 individual fire hotspots</strong> across the continent — each one a location where the land surface was radiating heat intense enough to trigger the sensor's thermal anomaly threshold. That is not a count of fires. It is a count of moments, each lasting minutes, each representing a pocket of active combustion somewhere on the Australian landscape.</p>
-        <p style="margin-top:1rem;">What distinguishes 2019 from every prior year in this dataset is not just quantity but geography. Previous high-activity years — particularly in the Northern Territory — were driven by annual savanna burning, a predictable and ecologically managed cycle. The fires of 2019 were different: they burned deep into the temperate forests of the Great Dividing Range, through ecosystems that had not experienced significant fire in decades, and at intensities — measured by Fire Radiative Power — that shattered prior benchmarks. The map below encodes that heat: larger, darker circles mean more total energy released. New South Wales sits as a stark outlier.</p>
+    <div class="v1-stats">
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">148K</div>
+        <div class="v1-stat-l">Individual fire hotspots detected by NASA MODIS satellites across Australia in 2019</div>
       </div>
-      <div class="v1-stat">
-        <div class="v1-stat-item">
-          <div class="v1-stat-n">148K</div>
-          <div class="v1-stat-l">Individual fire hotspots detected by NASA MODIS satellites across Australia in 2019</div>
-        </div>
-        <div class="v1-stat-item">
-          <div class="v1-stat-n">12.6M</div>
-          <div class="v1-stat-l">Hectares burned in New South Wales alone — more than in any prior recorded season</div>
-        </div>
-        <div class="v1-stat-item">
-          <div class="v1-stat-n">+0.91°C</div>
-          <div class="v1-stat-l">Australia's temperature anomaly in 2019, the hottest year on record at the time — the critical ingredient turning drought-stressed forests into fuel</div>
-        </div>
-        <div class="anno" style="margin:0;">
-          <strong>What this map shows:</strong> Circle size and colour both encode cumulative Fire Radiative Power (FRP) — the total satellite-measured heat output — per state across the 2019 season. The Northern Territory's large circle reflects routine savanna burning; NSW's circle reflects catastrophe.
-        </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">12.6M</div>
+        <div class="v1-stat-l">Hectares burned in New South Wales alone, more than any prior recorded season</div>
+      </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">+0.91°C</div>
+        <div class="v1-stat-l">Australia's temperature anomaly in 2019, the hottest year on record at the time</div>
       </div>
     </div>
-    <!-- END V1 NARRATIVE -->
 
-    <!-- V1: Fire Hotspot Map -->
     <div class="vc">
-      <div class="vc-title">Visualisation 1 — Satellite Fire Hotspots by State, 2019 Catastrophic Bushfire Season</div>
-      <div class="vc-sub">Geographic proportional symbol map on Albers Equal-Area conic projection (ICSM standard parallels −18°/−36°). Circle size and colour both encode cumulative fire radiative power (FRP) — the satellite measure of total heat released — per state over 15 years. Dual encoding (size + colour) aids pre-attentive perception. The NT shows high FRP from savanna burning; NSW shows the catastrophic impact of the 2019–20 season. Hover for values.</div>
-      <div id="v1" style="min-height:420px;"></div>
-      <div class="vc-src">
-        <span class="db db-a">Dataset A</span>
-        Source: NASA FIRMS — MODIS/VIIRS fire_radiative_power, state-aggregated —
-        <a href="https://www.kaggle.com/datasets/nagarajbhat/australian-bush-fire-satellite-data-nasa" target="_blank">kaggle.com/datasets/nagarajbhat</a> ·
-        Geoscience Australia — <a href="https://www.ga.gov.au/scientific-topics/hazards/bushfire" target="_blank">ga.gov.au/hazards/bushfire</a>
+      <div class="vc-title">Visualisation 1: Satellite Fire Hotspots by State, 2019-2020 Catastrophic Bushfire Season</div>
+      <div class="vc-sub">Geographic proportional symbol map on Albers Equal-Area conic projection (ICSM standard parallels -18/-36). Circle size and colour both encode cumulative fire radiative power (FRP) per state. Dual encoding (size + colour) aids pre-attentive perception of relative intensity across states.</div>
+
+      <div class="chart-desc">
+        <p>This map illustrates the divide between <strong style="color:var(--heat);">chronic, manageable fire activity</strong> and acute, systemic crisis. The Northern Territory's large circle reflects routine, seasonal land-management burning that recurs every dry season. New South Wales shows a comparable intensity but that comparison is the key insight: NSW accumulated fire radiative power in one summer (2019-20) that rivals the NT's entire multi-year managed cycle. This was not a collection of local fires. It was a massive, synchronised failure of environmental conditions across the southern continent that overwhelmed every normal containment mechanism simultaneously.</p>
       </div>
+
+      <div id="v1" style="min-height:420px;"></div>
     </div>
+
+    <div class="anno">
+      <strong>What this map shows:</strong> Circle size and colour both encode cumulative Fire Radiative Power (FRP), the total satellite-measured heat output, per state across the 2019 season. The Northern Territory's large circle reflects routine savanna burning; NSW's circle reflects catastrophe.
+    </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 2 — A Warming Climate
+     SECTION 2: A Warming Climate
 ══════════════════════════════════════════════ -->
 <section class="sec dark" id="s2">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 02 — A Warming Climate</div>
+      <div class="kicker">Section 02: A Warming Climate</div>
       <h2>Australia's Temperature Has<br>Risen +1.53°C Since 1910</h2>
-      <p class="lead">Australia's climate has warmed significantly and unevenly over the past century. The warming accelerated after 1980. Every single year from 2013 to 2023 recorded above-average temperatures. The three hottest years on record — 2019, 2023, and 2013 — also coincide with Australia's worst fire seasons. This is not coincidence.</p>
+      <div class="sec-rule"></div>
+      <p class="lead">Australia's climate has warmed significantly and unevenly over the past century. The warming accelerated after 1980. Every single year from 2013 to 2023 recorded above-average temperatures. The three hottest years on record (2019, 2023, and 2013) also coincide with Australia's worst fire seasons. This is not coincidence.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 2 — Annual Mean Temperature Anomaly, Australia 1910–2023 (Annotated Line Chart)</div>
-      <div class="vc-sub">Multi-layer chart: diverging bars (positive = above baseline, negative = below), smoothed trend line via LOESS transform, and three on-chart text annotations marking key climate milestones. The 1961–1990 baseline is shown as a zero reference rule. Annotations are data-driven Vega-Lite text marks positioned at precise chart coordinates, not image overlays.</div>
-      <div id="v2"></div>
-      <div class="vc-src">
-        <span class="db db-b">Dataset B</span>
-        Source: BOM — ACORN-SAT v2.4 annual temperature anomalies 1910–2023 —
-        <a href="http://www.bom.gov.au/climate/change/acorn-sat" target="_blank">bom.gov.au/climate/change/acorn-sat</a> ·
-        CSIRO — State of the Climate 2022 — <a href="https://www.csiro.au/en/research/natural-disasters/bushfires/State-of-climate" target="_blank">csiro.au/State-of-climate</a>
+      <div class="vc-title">Visualisation 2: Annual Mean Temperature Anomaly, Australia 1910-2025</div>
+      <div class="vc-sub">Diverging bar chart: bars above the zero baseline are coloured warm (orange/red) indicating above-average years; bars below are coloured cool (blue). The 1961-1990 period serves as the zero reference baseline. A smoothed LOESS trend line overlays the bars to reveal the long-run trajectory beneath year-to-year variability.</div>
+
+      <div class="chart-desc">
+        <p>The most striking element here is the definitive <strong style="color:var(--heat);">structural shift occurring after 1995</strong>, where the steady oscillation between cool and warm years was replaced by a consistent upward trajectory. The LOESS trend line reveals that our current climate is operating at a fundamentally different baseline than the 20th century. Because every 0.1°C of warming correlates to increased atmospheric demand for moisture, this warming is not just about heat. It is about the physical drying of forest fuels that primes the landscape for ignition.</p>
       </div>
+
+      <div id="v2"></div>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 3 — Drought Creates Fuel
+     SECTION 3: Drought Creates Fuel
 ══════════════════════════════════════════════ -->
 <section class="sec" id="s3">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 03 — Drought Creates Fuel</div>
+      <div class="kicker">Section 03: Drought Creates Fuel</div>
       <h2>Reduced Rainfall Dries<br>Forests Into Tinder</h2>
-      <p class="lead">Reduced rainfall dries out forests and grasslands, turning vast areas into combustible fuel. Australia's rainfall is naturally variable, but a sustained drying trend since the 1970s — particularly across the southeast — has left soil moisture at historically low levels and vegetation stressed before fire season even begins.</p>
+      <div class="sec-rule"></div>
+      <p class="lead">Reduced rainfall dries out forests and grasslands, turning vast areas into combustible fuel. Australia's rainfall is naturally variable, but a sustained drying trend since the 1970s, particularly across the southeast, has left soil moisture at historically low levels and vegetation stressed before fire season even begins.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 3 — Monthly Rainfall Anomaly by Decade, Southern Australia 1960s–2020s (Matrix Heatmap)</div>
-      <div class="vc-sub">Custom matrix heatmap: rows = calendar months, columns = decades, colour = average rainfall anomaly relative to the 1961–1990 baseline. Blue = above-average; orange/red = deficit. This matrix reveals the general drying trend and the asymmetric seasonal drying (summer and autumn showing the steepest deficits) simultaneously — something no standard bar or line chart can do.</div>
-      <div id="v3"></div>
-      <div class="vc-src">
-        <span class="db db-b">Dataset B</span>
-        Source: BOM — Australian Rainfall and Runoff, monthly climatology 1960–2023 —
-        <a href="http://www.bom.gov.au/water/awid" target="_blank">bom.gov.au/water/awid</a> ·
-        CSIRO — State of the Climate 2022 — <a href="https://www.csiro.au/en/research/natural-disasters/bushfires/State-of-climate" target="_blank">csiro.au/State-of-climate</a>
+      <div class="vc-title">Visualisation 3: Monthly Rainfall Anomaly by Decade, Southern Australia 1960s-2020s</div>
+      <div class="vc-sub">Matrix heatmap: rows = calendar months, columns = decades, cell colour = average rainfall anomaly relative to the 1961-1990 baseline. Blue cells indicate above-average rainfall; orange/red cells indicate deficit. Reading across rows reveals seasonal patterns; reading down columns reveals decadal drying trends.</div>
+
+      <div class="chart-desc">
+        <p>The <strong style="color:var(--heat);">"bottom-right corner"</strong> of this heatmap acts as a smoking gun for the lengthening of the fire season. The concentrated, multi-decadal deficit in rainfall during the late summer and autumn months (January-April) explains why recent fires have become so difficult to extinguish. Traditionally, autumn rains would provide a natural "circuit breaker" for summer fires, but this persistent drying trend removes that seasonal safety mechanism, allowing fire events that ignite early in the year to persist well into the following months.</p>
       </div>
+
+      <div id="v3"></div>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 4 — Fire Seasons Expanding
+     SECTION 4: Fire Seasons Expanding
 ══════════════════════════════════════════════ -->
 <section class="sec dark" id="s4">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 04 — Fire Seasons Are Expanding</div>
+      <div class="kicker">Section 04: Fire Seasons Are Expanding</div>
       <h2>Fire Season Now Spans<br>Almost the Entire Year</h2>
+      <div class="sec-rule"></div>
       <p class="lead">Bushfire seasons are no longer confined to summer. In many regions, dangerous fire conditions now persist from late winter through to late autumn. This "season creep" stretches volunteer fire agencies across ever-longer deployments, shrinks windows for prescribed burning, and prevents ecosystems from recovering between events.</p>
     </div>
 
-    <div class="two">
+    <div class="two" style="margin-bottom:1.4rem;">
       <div>
-        <div class="pq">"The window of dangerous fire weather has expanded by 3–4 weeks across southern Australia since 1950."<cite>— Climate Council of Australia, 2023</cite></div>
-  
-        <p style="color:#c2ae98;font-size:.88rem;line-height:1.88;margin-bottom:1rem;">
-        The polar chart to the right arranges monthly fire danger data around a cyclic clock face, making seasonal patterns immediately intuitive. The solid green ring represents the official **low-to-moderate safety barrier (FFDI 12)**. Historically, fire danger stayed safely within this boundary for most of the year. However, comparing decades reveals a troubling trajectory: the bars are aggressively pushing well over this safety rating. While summer months have always breached it, the danger window is now expanding deep into autumn, forcing March, April, and May far past the safety threshold.
+        <div class="pq">"The window of dangerous fire weather has expanded by 3-4 weeks across southern Australia since 1950."<cite>Climate Council of Australia, 2023</cite></div>
+
+        <p style="color:#c2ae98;font-size:var(--fs-body);line-height:1.88;margin-bottom:.9rem;">
+          The polar radial chart to the right arranges monthly fire danger data around a cyclic clock face, making seasonal patterns immediately intuitive. Each wedge represents one month; the radial distance encodes fire danger intensity. Comparing the outer rings of the chart across decades reveals a troubling trajectory.
         </p>
-  
-        <p style="color:#c2ae98;font-size:.88rem;line-height:1.88;margin-bottom:1rem;">
-        The circular structure of the chart is highly functional rather than decorative—it is the most appropriate visual encoding for cyclic, recurring seasonal data. It allows you to see the exact moment the fire season breaks through the safety barrier at a single glance, in a way a linear bar chart cannot easily replicate.
+        <p style="color:#c2ae98;font-size:var(--fs-body);line-height:1.88;margin-bottom:.9rem;">
+          This radial chart illustrates the "seasonal stretching" of fire risk, where the danger period is expanding to occupy more of the calendar year. While winter remains a period of lower risk, the outer rings show the 2010s and 2020s creeping into higher danger indices earlier in spring and lasting later into autumn, effectively reducing the window of opportunity for safe, controlled burning and leaving authorities with less time to mitigate fuel loads before the summer peak arrives.
         </p>
-  
+
         <div class="anno">
-          <strong>Reading this chart:</strong> Each wedge represents one month of the year. The length of the bar represents the 90th percentile Forest Fire Danger Index (FFDI), while color intensity reinforces the severity. The **solid green ring** marks the safety barrier limit. By using the dropdown to compare older decades against the 2010s, you can visually track how many months have transitioned from being safely contained to soaring well over the safety rating. Hovering over a month will explicitly show if its climate status is within or over the safety boundary.
+          <strong>Reading this chart:</strong> Each wedge = one month. Bar length = 90th percentile Forest Fire Danger Index (FFDI). Colour intensity reinforces severity. The solid green ring marks the safety barrier. Use the dropdown to compare decades and track how many months have transitioned from safely contained to well over the safety rating.
         </div>
       </div>
       <div>
         <div class="vc">
-          <div class="vc-title">Visualisation 4 — Fire Danger Season Profile by Month (Polar Radial Bar Chart) <span class="ibadge">custom idiom</span></div>
-          <div class="vc-sub">Custom radial bar chart using arc marks in polar coordinates. Angular axis = month (cyclic, 12 equal sectors). Radial axis = Forest Fire Danger Index (outward = more dangerous). Inner grey ring = 1990s average; orange/red arcs = 2020s average. Hover for month and FFDI values.</div>
-          <div id="v4" style="min-height:400px;"></div>
-          <div class="vc-src">
-            <span class="db db-b">Dataset B</span>
-            Source: BOM — Forest Fire Danger Index seasonal climatology —
-            <a href="http://www.bom.gov.au/climate/change/fire-danger.shtml" target="_blank">bom.gov.au/climate/change/fire-danger</a> ·
-            CSIRO — State of the Climate 2022 — <a href="https://www.csiro.au/State-of-climate" target="_blank">csiro.au/State-of-climate</a>
-          </div>
+          <div class="vc-title">Visualisation 4: Fire Danger Season Profile by Month</div>
+          <div class="vc-sub">Radial heatmap: the calendar months are arranged around a circular axis, with colour intensity encoding the Forest Fire Danger Index (FFDI) value for each month-decade combination. The cyclic layout is ideal for seasonal data, making it immediately apparent which months have shifted into higher danger bands across decades.</div>
+          <div id="v4" style="min-height:380px;"></div>
         </div>
       </div>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 5 — Fire Danger Season Length, Southern Australia 1950–2023 (Multi-Layer Line + Regression)</div>
-      <div class="vc-sub">Four simultaneous mark layers: background area fill, observed annual line, individual year points, and an OLS regression overlay computed via Vega-Lite's built-in regression transform. Two on-chart text annotations mark the 2019 record (163 days) and the trend rate (+2.6 days/decade).</div>
-      <div id="v5"></div>
-      <div class="vc-src">
-        <span class="db db-b">Dataset B</span>
-        Source: BOM — Annual Climate Statements, days exceeding Very High Fire Danger threshold 1950–2023 —
-        <a href="http://www.bom.gov.au/climate/change/" target="_blank">bom.gov.au/climate/change</a>
+      <div class="vc-title">Visualisation 5: Fire Danger Season Length, Southern Australia 1971-2017</div>
+      <div class="vc-sub">Sequential rectangular heatmap: each cell represents one year, arranged chronologically. Cell colour encodes the number of dangerous fire days recorded that year, progressing from light (fewer days) through to deep red (extreme seasons). The sequential colour scale makes it immediately apparent when dangerous seasons become more frequent and more severe over time.</div>
+
+      <div class="chart-desc">
+        <p>This heatmap makes the trend viscerally clear: the cells darken noticeably from left to right, reflecting the <strong style="color:var(--heat);">steady accumulation of dangerous fire days each decade</strong>. The darkest cells cluster in the most recent years, confirming that extreme seasons are not random outliers but an emerging norm. Equally important is the increasing frequency of deep-red years, it is not that average years are becoming mildly more difficult, but that the worst-case scenarios are becoming more severe and more regular, placing exponentially greater pressure on firefighting agencies operating within the same resource constraints.</p>
       </div>
+
+      <div id="v5"></div>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 5 — Black Summer
+     SECTION 5: Black Summer
 ══════════════════════════════════════════════ -->
 <section class="sec darker" id="s5">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 05 — The Black Summer Catastrophe</div>
-      <h2>2019–20: A Season That<br>Changed Everything</h2>
-      <p class="lead">The 2019–2020 Black Summer fires became the most destructive environmental disaster in Australia's recorded history. What made it different was not just its size, but the fact that it burned simultaneously across five states, in regions that had not burned in living memory, at intensities that exceeded every previous measurement.</p>
+      <div class="kicker">Section 05: The Black Summer Catastrophe</div>
+      <h2>2019-20: A Season That<br>Changed Everything</h2>
+      <div class="sec-rule"></div>
+      <p class="lead">The 2019-2020 Black Summer fires became the most destructive environmental disaster in Australia's recorded history. What made it different was not just its size, but the fact that it burned simultaneously across five states, in regions that had not burned in living memory, at intensities that exceeded every previous measurement.</p>
     </div>
 
-    <!-- <div class="impact-grid">
-      <div class="impact-card"><span class="icon">🌏</span><div class="num">18.6M</div><div class="label">Hectares burned</div><div class="detail">Larger than England &amp; Wales combined</div></div>
-      <div class="impact-card"><span class="icon">🐨</span><div class="num">3B</div><div class="label">Animals affected</div><div class="detail">Across all fire-impacted ecosystems</div></div>
-      <div class="impact-card"><span class="icon">🏠</span><div class="num">5,900+</div><div class="label">Buildings destroyed</div><div class="detail">Including 2,448 homes in NSW alone</div></div>
-      <div class="impact-card"><span class="icon">💨</span><div class="num">445</div><div class="label">Smoke-related deaths</div><div class="detail">Across Australia's major cities</div></div>
-      <div class="impact-card"><span class="icon">💰</span><div class="num">$103B</div><div class="label">Economic cost AUD</div><div class="detail">Health, property &amp; infrastructure</div></div>
-      <div class="impact-card"><span class="icon">🌡️</span><div class="num">+0.91°C</div><div class="label">Above average temp in 2019</div><div class="detail">Hottest year then on record</div></div>
-    </div> -->
-
-    <div class="vc">
-      <div class="vc-title">Visualisation 6 — Black Summer Area Burned by State: Proportional Symbol Map <span class="ibadge">hover for values</span></div>
-      <div class="vc-sub">Second geographic map showing the same Albers Equal-Area projection but different data: hectares burned during the 2019–20 season per state. Comparing this map to Visualisation 1 reveals that NSW — while only moderately affected in previous years — suffered catastrophically in a single season.</div>
-      <div id="v6" style="min-height:420px;"></div>
-      <div class="vc-src">
-        <span class="db db-a">Dataset A</span> <span class="db db-c">Dataset C</span>
-        Source: AFAC National Situation Reports 2019–20 —
-        <a href="https://www.afac.com.au" target="_blank">afac.com.au</a> ·
-        Royal Commission into National Natural Disaster Arrangements 2020 —
-        <a href="https://www.royalcommission.gov.au/natural-disasters" target="_blank">royalcommission.gov.au</a>
+    <div class="v1-stats" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 1.4rem;">
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">18.6M</div>
+        <div class="v1-stat-l">Hectares burned, a total larger than England and Wales combined</div>
+      </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">5,900+</div>
+        <div class="v1-stat-l">Buildings destroyed, including 2,448 homes in NSW alone</div>
+      </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">445</div>
+        <div class="v1-stat-l">Smoke-related deaths recorded across Australia's major cities</div>
+      </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">$103B</div>
+        <div class="v1-stat-l">Estimated economic cost in AUD across health, property, and infrastructure</div>
+      </div>
+      <div class="v1-stat-item">
+        <div class="v1-stat-n">+0.91°C</div>
+        <div class="v1-stat-l">Above-average temperature in 2019, the hottest year on record at the time</div>
       </div>
     </div>
+
+    <div class="vc">
+      <div class="vc-title">Visualisation 6: State Fire Rankings Across Major Seasons <span class="ibadge">hover for values</span></div>
+      <div class="vc-sub">Bump chart: each line traces a state's rank by area burned across multiple fire seasons, with rank on the vertical axis and season on the horizontal. Rising lines indicate a state moving up the rankings (burning more relative to others); falling lines indicate relative improvement. The crossing of lines reveals how dramatically states shift in their exposure from season to season.</div>
+
+      <div class="chart-desc">
+        <p>This chart highlights the <strong style="color:var(--heat);">breakdown of regional recovery intervals</strong> and the unpredictability of where catastrophe strikes next. The rapid crossing of lines shows that no single state is consistently spared. Fire risk is increasingly driven by large-scale atmospheric conditions that transcend state borders. When a jurisdiction like the ACT leaps to the top of the rankings, it demonstrates that fire events are now bypassing the ecological capacity for landscapes to regenerate between disasters. The instability of rankings is itself the finding: these are not the predictable, cyclical patterns of managed fire regimes. They are the chaotic signature of a system under climate stress.</p>
+      </div>
+
+      <div id="v6" style="min-height:420px;"></div>
+    </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 6 — Climate and Fire Intensity
+     SECTION 6: Climate and Fire Intensity
 ══════════════════════════════════════════════ -->
 <section class="sec" id="s6">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 06 — Climate and Fire Intensity</div>
+      <div class="kicker">Section 06: Climate and Fire Intensity</div>
       <h2>Hotter Years Mean<br>More Intense Fires</h2>
-      <p class="lead">The relationship between temperature and fire activity is not just intuitive — it is statistically measurable. Plotting annual temperature anomaly against total satellite-detected fire events shows a clear positive correlation: as temperatures rise above baseline, fire activity increases. 2019 sits as a clear outlier at both extremes.</p>
+      <div class="sec-rule"></div>
+      <p class="lead">The relationship between temperature and fire activity is not just intuitive. It is statistically measurable. Plotting annual temperature anomaly against total satellite-detected fire events shows a clear positive correlation: as temperatures rise above baseline, fire activity increases. 2019 sits as a clear outlier at both extremes.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 7 — Temperature Anomaly vs Annual Fire Count, 2005–2023: Scatterplot with Regression <span class="ibadge">combines both datasets</span></div>
-      <div class="vc-sub">Custom analytical chart combining Dataset A (NASA FIRMS annual fire counts) and Dataset B (BOM temperature anomalies) on the same canvas. Each point is one year; size encodes total area burned; colour encodes the decade. An OLS regression line is computed via Vega-Lite's built-in regression transform. The 2019 Black Summer year is annotated directly on the chart.</div>
-      <div id="v7"></div>
-      <div class="vc-src">
-        <span class="db db-a">Dataset A</span> <span class="db db-b">Dataset B</span>
-        Source (fire count): NASA FIRMS annual fire event count —
-        <a href="https://www.kaggle.com/datasets/nagarajbhat/australian-bush-fire-satellite-data-nasa" target="_blank">kaggle.com/datasets/nagarajbhat</a> ·
-        Source (temperature): BOM ACORN-SAT annual anomalies —
-        <a href="http://www.bom.gov.au/climate/data/" target="_blank">bom.gov.au/climate/data</a>
+      <div class="vc-title">Visualisation 7: Temperature Anomaly vs Annual Fire Count, 1970s-2010s </div>
+      <div class="vc-sub">Wilkinson dot plot: individual observations are stacked vertically within discrete bins along the horizontal axis, preserving every data point without overlap. Each dot represents one year; horizontal position encodes temperature anomaly; stacking height within each bin reflects frequency. Colour encodes the decade, revealing distributional shifts over time without hiding individual values behind aggregation.</div>
+
+      <div class="chart-desc">
+        <p>The clustering of the largest, most intense observations in the <strong style="color:var(--heat);">higher-anomaly bins</strong> visually demonstrates that the largest fire events are no longer random. They are anchored to the hottest years. The positive shift in where dots accumulate across decades shows this is not a stable relationship: years in the 2010s sit systematically toward the warmer end compared to earlier decades, suggesting a "force multiplier" effect where drought conditions compound rising temperatures to accelerate fire intensity beyond what heat alone would predict.</p>
       </div>
+
+      <div id="v7"></div>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 7 — Smoke Across Cities
+     SECTION 7: Smoke Across Cities
 ══════════════════════════════════════════════ -->
 <section class="sec dark" id="s7">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 07 — Smoke Across Cities</div>
+      <div class="kicker">Section 07: Smoke Across Cities</div>
       <h2>Fire Smoke Spread Across<br>the Entire Continent</h2>
-      <p class="lead">Smoke pollution from major fires spread far beyond the burn zones, affecting millions of Australians in cities hundreds of kilometres away. Sydney, Melbourne, and Canberra experienced air quality classified as "hazardous" for weeks during Black Summer. The health consequences — respiratory illness, premature death — extended the disaster far beyond what satellite fire maps show.</p>
+      <div class="sec-rule"></div>
+      <p class="lead">Smoke pollution from major fires spread far beyond the burn zones, affecting millions of Australians in cities hundreds of kilometres away. Sydney, Melbourne, and Canberra experienced air quality classified as "hazardous" for weeks during Black Summer. The health consequences, including respiratory illness and premature death, extended the disaster far beyond what satellite fire maps show.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 8 — Relative Fire Activity by State, 2005–2020: Streamgraph</div>
-      <div class="vc-sub">Streamgraph idiom: area marks with stack="center" (the centre-symmetric stacking that defines a streamgraph). Each coloured band represents one state's contribution to total fire activity. The organic, wave-like visual shows how fire activity flows across different states over time. The 2019–20 surge is visible as a dramatic expansion of the NSW (red) band.</div>
-      <div id="v8"></div>
-      <div class="vc-src">
-        <span class="db db-a">Dataset A</span>
-        Source: NASA FIRMS — annual fire radiative power by state (relative units), 2005–2020 —
-        <a href="https://www.kaggle.com/datasets/nagarajbhat/australian-bush-fire-satellite-data-nasa" target="_blank">kaggle.com/datasets/nagarajbhat</a>
+      <div class="vc-title">Visualisation 8: Relative Fire Activity by State, 2016-2021</div>
+      <div class="vc-sub">Streamgraph: area marks stacked symmetrically around a central baseline. Each coloured band represents one state's contribution to total national fire activity. The organic, wave-like form communicates both the total volume of fire activity and each state's relative share simultaneously, making sudden shifts in dominance immediately visible.</div>
+
+      <div class="chart-desc">
+        <p>The streamgraph clearly differentiates between <strong style="color:var(--heat);">"business-as-usual" fire activity</strong>, historically dominated by tropical savanna fires in the north, and the sudden, explosive dominance of southern forest fires during 2019-20. When the NSW band suddenly expands to consume the majority of the national stream, it serves as a visual indicator of a climate-driven anomaly. This is distinct from past peaks driven by tropical drought, signifying a fundamental shift in where and how catastrophic fires manifest across the continent.</p>
       </div>
+
+      <div id="v8"></div>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 8 — Wildlife and Human Loss
+     SECTION 8: Human Loss
 ══════════════════════════════════════════════ -->
 <section class="sec" id="s8">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 08 — Wildlife and Human Loss</div>
-      <h2>3 Billion Animals.<br>One Season.</h2>
-      <p class="lead">Beyond property destruction, the Black Summer fires devastated Australian ecosystems and wildlife populations on an unprecedented scale. WWF estimated that 3 billion animals were killed, displaced, or injured — a number so large it resists conventional bar chart representation. The icon array below makes that number feel real.</p>
+      <div class="kicker">Section 08: Human Cost</div>
+      <h2>Lives Lost, Homes Destroyed.<br>A Human Catastrophe.</h2>
+      <div class="sec-rule"></div>
+      <p class="lead">Beyond ecological destruction, the Black Summer fires exacted a devastating human toll. Thirty-three people died directly in the flames. A further 445 died from smoke inhalation across Australian cities. Nearly 6,000 structures were destroyed. The icon array and dumbbell chart below make the true scale of human loss tangible.</p>
     </div>
 
-    <div class="two-eq">
+    <div style="display: flex; flex-direction: column; gap: 1.6rem;">
+
       <div class="vc">
-        <div class="vc-title">Visualisation 9 — 3 Billion Animals: Wildlife Impact Icon Array <span class="ibadge">unit visualisation</span></div>
-        <div class="vc-sub">Icon array (unit chart): each square represents approximately 30 million animals. Orange = killed or severely harmed (~1 billion); red = injured or displaced (~2 billion). This proportional unit encoding makes the scale viscerally comprehensible in a way a pie chart or single number cannot.</div>
-        <div id="v9"></div>
-        <div class="vc-src">
-          <span class="db db-c">Dataset C</span>
-          Source: WWF Australia — "Three Billion Animals" report, Jan 2020 —
-          <a href="https://www.wwf.org.au/get-involved/bushfire-emergency/3-billion-animals" target="_blank">wwf.org.au/3-billion-animals</a>
+        <div class="vc-title">Visualisation 9: Human Lives Lost and Homes Destroyed</div>
+        <div class="vc-sub">Combined icon array and waffle chart: the icon array uses unit symbols where each icon represents a fixed number of lives or structures, making large counts human-scale and countable. The waffle chart encodes proportional breakdowns (direct fire deaths versus smoke-related deaths, and homes versus other structures) within a bounded grid, preserving both absolute scale and relative composition simultaneously.</div>
+
+        <div class="chart-desc">
+          <p>Moving the discussion from abstract hectares to <strong style="color:var(--heat);">tangible, visceral human loss</strong>, these charts draw attention to the full breadth of Black Summer's toll. The waffle chart's proportional breakdown reveals that smoke-related deaths, spread across cities far from the flames, far outnumbered direct fire fatalities, making this a crisis that reached every major Australian population centre. The 445 smoke deaths represent people who never saw a flame, whose health was claimed by weeks of hazardous air quality blanketing Sydney, Melbourne, and Canberra. Counting the icons makes that number feel real rather than statistical.</p>
         </div>
+
+        <div id="v9" style="min-height:340px;"></div>
       </div>
 
       <div class="vc">
-        <div class="vc-title">Visualisation 10 — Homes Destroyed: Pre-2000 vs Post-2000 Major Fire Events (Slope Chart)</div>
-        <div class="vc-sub">Custom slope chart connecting Australia's three worst fire events from each era. A rising line signals escalation. The steepest rise — from Ash Wednesday (2,500 homes, 1983) to Black Summer (5,900 homes, 2019) — represents a 136% increase despite better warning systems and fire management.</div>
-        <div id="v10"></div>
-        <div class="vc-src">
-          <span class="db db-c">Dataset C</span>
-          Source: AIDR — Disaster Loss Database —
-          <a href="https://www.aidr.org.au/resources/disaster-loss-database/" target="_blank">aidr.org.au/disaster-loss-database</a> ·
-          Royal Commission into National Natural Disaster Arrangements, 2020
+        <div class="vc-title">Visualisation 10: Homes Destroyed Across Major Fire Events</div>
+        <div class="vc-sub">Dumbbell chart: each horizontal dumbbell connects two values for the same event, such as the lower bound (confirmed structures) and upper bound (total estimated losses including outbuildings), or compares two comparable fire seasons side by side. The gap between dots encodes the range or difference; longer gaps signal greater uncertainty or greater disparity between scenarios.</div>
+
+        <div class="chart-desc">
+          <p>This chart serves as a direct critique of the assumption that technological progress alone can solve climate-related disaster. Despite three decades of improved building codes and advanced firefighting capacity, the <strong style="color:var(--heat);">136% increase in homes destroyed</strong> between Ash Wednesday (1983) and Black Summer (2019) proves that we are being outpaced by the changing environment. The dumbbell format reveals not just point estimates but the range of loss and the widening gaps in recent events suggest that uncertainty itself is growing, with best-case and worst-case outcomes increasingly far apart as fire conditions become more extreme and unpredictable.</p>
         </div>
+
+        <div id="v10" style="min-height:400px;"></div>
       </div>
+
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 9 — Future Fire Risk
+     SECTION 9: Future Fire Risk
 ══════════════════════════════════════════════ -->
 <section class="sec darker" id="s9">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 09 — Future Fire Risk</div>
+      <div class="kicker">Section 09: Future Fire Risk</div>
       <h2>Under High Emissions, Extreme<br>Fire Days Could Double by 2050</h2>
+      <div class="sec-rule"></div>
       <p class="lead">CSIRO climate modelling offers two trajectories. Under the high-emissions scenario (RCP 8.5), extreme fire weather days nearly double by 2050 and continue rising. Under rapid decarbonisation (RCP 2.6), the increase is limited to approximately 30%. The space between these two paths is the direct, quantified consequence of climate decisions made in the next decade.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 11 — Projected Increase in Extreme Fire Days by 2050 (RCP 8.5): State Choropleth Map</div>
-      <div class="vc-sub">Choropleth map — a deliberately different idiom from Visualisations 1 and 6 (which use proportional symbols). The choropleth fills entire state polygons with colour encoding the projected % increase in extreme fire days by 2050. Choropleth is the correct idiom here because projected climate risk is a regional attribute (belonging to the whole state), not a point-located observation. ACT (88%) and VIC (82%) face the steepest increases.</div>
-      <div id="v11" style="min-height:420px;"></div>
-      <div class="vc-src">
-        <span class="db db-b">Dataset B</span>
-        Source: CSIRO — Climate Change in Australia regional projections, RCP 8.5 —
-        <a href="https://www.climatechangeinaustralia.gov.au" target="_blank">climatechangeinaustralia.gov.au</a> ·
-        BOM — Regional Climate Futures — <a href="http://www.bom.gov.au/climate/change/" target="_blank">bom.gov.au/climate/change</a>
+      <div class="vc-title">Visualisation 11: Projected Increase in Extreme Fire Days by 2050 (RCP 8.5)</div>
+      <div class="vc-sub">Choropleth map: entire state polygons are filled with a sequential colour scale encoding the projected percentage increase in extreme fire days by 2050 under the RCP 8.5 high-emissions scenario. Choropleth is the correct idiom here because projected climate risk is a regional attribute uniformly distributed across each jurisdiction, rather than a point-located observation.</div>
+
+      <div class="chart-desc">
+        <p>This map reveals a counterintuitive reality: the regions facing the greatest future risk are <strong style="color:var(--heat);">not those that have historically experienced the most fire</strong>. Instead, temperate forests in south-eastern Australia which historically burn rarely and face the most dramatic transformation. Because these ecosystems store massive amounts of carbon and surround our largest cities, this projected shift toward a fire-prone future represents one of the most consequential climate risks identified in Australian projections.</p>
       </div>
+
+      <div id="v11" style="min-height:420px;"></div>
     </div>
 
     <div class="essay">
-      <p>Australia has always been a continent of fire. Indigenous Australians managed country with fire for over 65,000 years — a sophisticated, life-sustaining practice built on ecological knowledge no satellite has yet replicated. But the fire we measure today from space is different in scale, in heat intensity, and in the months it chooses. Two datasets, eleven visualisations, one conclusion: <em>what is happening is not cyclical. It is a trend — and the data shows exactly where it leads.</em></p>
+      <p>Australia has always been a continent of fire. Indigenous Australians managed country with fire for over 65,000 years, a sophisticated and life-sustaining practice built on ecological knowledge no satellite has yet replicated. But the fire we measure today from space is different in scale, in heat intensity, and in the months it chooses. Two datasets, eleven visualisations, one conclusion: <em>what is happening is not cyclical. It is a trend, and the data shows exactly where it leads.</em></p>
     </div>
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SECTION 10 — Interactive Exploration
+     SECTION 10: Interactive Exploration
 ══════════════════════════════════════════════ -->
 <section class="sec dark" id="s10">
   <div class="wrap">
+
     <div class="sec-hd">
-      <div class="kicker">Section 10 — Interactive Exploration</div>
-      <h2>Explore the Data<br>by State <span class="ibadge">click to filter</span></h2>
-      <p class="lead">Bushfire impacts vary significantly across Australian states. The linked dashboard below uses coordinated views — clicking a state in the left chart filters the right chart to show that state's fire history over time. This is the custom interactive element: two Vega-Lite charts sharing a selection parameter, where interacting with one updates the other.</p>
+      <div class="kicker">Section 10: Interactive Exploration</div>
+      <h2>Explore the Data<br>by State</h2>
+      <div class="sec-rule"></div>
+      <p class="lead">Bushfire impacts vary significantly across Australian states. The linked dashboard below uses coordinated views. Clicking a state in the left chart filters the right chart to show that state's fire history over time. This is the custom interactive element: two Vega-Lite charts sharing a selection parameter, where interacting with one updates the other.</p>
     </div>
 
     <div class="vc">
-      <div class="vc-title">Visualisation 12 — Linked Dashboard: State Fire Totals × Annual Fire Trend (Coordinated Views) <span class="ibadge">custom · click a state</span></div>
-      <div class="vc-sub">Custom coordinated view dashboard: left chart = horizontal bar showing cumulative fire radiative power by state. Right chart = line chart showing annual fire activity 2005–2020. A shared Vega-Lite param connects the two charts — clicking any state bar highlights that state's trend line and fades all others. Click the same bar again to reset.</div>
-      <div id="v12"></div>
-      <div class="vc-src">
-        <span class="db db-a">Dataset A</span>
-        Source: NASA FIRMS — annual fire radiative power by state, 2005–2020 —
-        <a href="https://www.kaggle.com/datasets/nagarajbhat/australian-bush-fire-satellite-data-nasa" target="_blank">kaggle.com/datasets/nagarajbhat</a>
+      <div class="vc-title">Visualisation 12: Linked Dashboard State Fire Totals × Annual Fire Trend 2016-2021 <span class="ibadge">click a state for detail</span></div>
+      <div class="vc-sub">Coordinated view dashboard: left chart = horizontal bar showing cumulative fire radiative power by state. Right chart = line chart showing annual fire activity 2016-2021. A shared Vega-Lite param connects the two. Clicking any state bar highlights that state's trend line and fades all others. Click the same bar again to reset.</div>
+
+      <div class="chart-desc">
+        <p>Try clicking <strong style="color:var(--heat);">Northern Territory</strong> first: its trend line is high but flat, reflecting consistent annual savanna burning with little year-to-year change, confirming a managed ecological cycle rather than a climate signal. Then click <strong style="color:var(--heat);">New South Wales</strong>: the line is almost flat through to 2018, then spikes vertically in 2019, the most abrupt single-year change in any state's fire record. This contrast is the data-driven argument in a single interaction. The coordinated view makes it possible to disaggregate three completely different fire regimes (savanna cycles, temperate catastrophe, and tropical drought) that are obscured whenever states are averaged together in a single national-level chart.</p>
       </div>
+
+      <div id="v12"></div>
     </div>
+
   </div>
 </section>
 
@@ -894,39 +886,104 @@ footer ul li::before { content: '→ '; color: var(--ember); }
 ══════════════════════════════════════════════ -->
 <footer>
   <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h4>About This Visualisation</h4>
-        <p>Created for FIT2179 Data Visualisation at Monash University, Semester 1 2026. Three datasets are combined: <strong style="color:var(--heat);">Dataset A</strong> (NASA FIRMS satellite fire data), <strong style="color:#78b858;">Dataset B</strong> (BOM/CSIRO climate records), and <strong style="color:#6ab0d8;">Dataset C</strong> (ABS/WWF/AIDR impact data). All 12 charts built with Vega-Lite v5.16.3. Custom idioms: radial bar chart (Viz 4), streamgraph (Viz 8), icon array (Viz 9), coordinated linked dashboard (Viz 12).</p>
-        <br>
-        <p><strong style="color:var(--gold);">AI acknowledgement:</strong> Generative AI (Claude, Anthropic) assisted with grammar checking, code scaffolding, and initial design suggestions. All data selection, visualisation design decisions, narrative structure, annotation content, and final implementation are the author's original work.</p>
-        <br>
-        <p style="color:#2a1a08;">Author: [Your Name] · Student ID: [Your ID] · Monash University Clayton · May 2026</p>
+
+    <!-- ── AI Acknowledgement ── -->
+    <div style="max-width:820px; margin-bottom:2.2rem; padding-bottom:2rem; border-bottom:1px solid var(--bdr);">
+      <h4>AI Acknowledgement</h4>
+      <p style="max-width:760px; line-height:1.9;">
+        Generative AI (Claude, Anthropic) assisted with grammar checking, code scaffolding, and initial design suggestions.
+        All data selection, visualisation design decisions, narrative structure, annotation content, and final implementation are the author's original work.
+      </p>
+    </div>
+
+    <!-- ── Data Sources ── -->
+    <div style="margin-bottom:2rem;">
+      <h4 style="margin-bottom:1.2rem;">Data Sources</h4>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1.6rem 2.8rem; margin-bottom:1.4rem;">
+
+        <!-- A: NASA FIRMS -->
+        <div>
+          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+            <span class="db db-a">Dataset A</span>
+            <span style="font-size:var(--fs-sub); color:var(--fog); font-weight:500; letter-spacing:.05em; text-transform:uppercase;">NASA FIRMS</span>
+          </div>
+          <p style="line-height:1.88;">
+            Australian Bush Fire Satellite Data — MODIS active fire detections including fire radiative power and hotspot locations.
+          </p>
+          <p style="margin-top:.35rem;">
+            <a href="https://www.kaggle.com/datasets/nagarajbhat/australian-bush-fire-satellite-data-nasa" target="_blank" rel="noopener" style="color:#7a5a38; text-decoration:underline;">kaggle.com/datasets/nagarajbhat</a>
+          </p>
+          <p style="font-size:calc(var(--fs-meta) + .01rem); color:#3d2a14; margin-top:.4rem; font-style:italic;"></p>
+        </div>
+
+        <!-- B: BOM / CSIRO -->
+        <div>
+          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+            <span class="db db-b">Dataset B</span>
+            <span style="font-size:var(--fs-sub); color:var(--fog); font-weight:500; letter-spacing:.05em; text-transform:uppercase;">BOM / CSIRO</span>
+          </div>
+          <p style="line-height:1.88;">
+            ACORN-SAT temperature records, monthly rainfall anomalies, and Forest Fire Danger Index (FFDI) historical data.
+          </p>
+          <p style="margin-top:.35rem;">
+            <a href="https://www.bom.gov.au/climate/data" target="_blank" rel="noopener" style="color:#7a5a38; text-decoration:underline;">bom.gov.au/climate/data</a>
+          </p>
+          <p style="line-height:1.88; margin-top:.5rem;">
+            CSIRO climate projections and future fire weather scenarios (RCP 2.6 / 8.5).
+          </p>
+          <p style="margin-top:.35rem;">
+            <a href="https://www.climatechangeinaustralia.gov.au" target="_blank" rel="noopener" style="color:#7a5a38; text-decoration:underline;">climatechangeinaustralia.gov.au</a>
+          </p>
+          <p style="font-size:calc(var(--fs-meta) + .01rem); color:#3d2a14; margin-top:.4rem; font-style:italic;"></p>
+        </div>
+
+        <!-- C: ABARES -->
+        <div>
+          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+            <span class="db db-c">Dataset C</span>
+            <span style="font-size:var(--fs-sub); color:var(--fog); font-weight:500; letter-spacing:.05em; text-transform:uppercase;">ABARES</span>
+          </div>
+          <p style="line-height:1.88;">
+            Australian Bureau of Agricultural and Resource Economics and Sciences — forest fire spatial data, area burned statistics, and state-level fire records.
+          </p>
+          <p style="margin-top:.35rem;">
+            <a href="https://www.agriculture.gov.au/abares/forestsaustralia/forest-data-maps-and-tools/spatial-data/forest-fire" target="_blank" rel="noopener" style="color:#7a5a38; text-decoration:underline;">agriculture.gov.au/abares</a>
+          </p>
+          <p style="font-size:calc(var(--fs-meta) + .01rem); color:#3d2a14; margin-top:.4rem; font-style:italic;"></p>
+        </div>
+
+        <!-- D: Atlas of Disaster Losses -->
+        <div>
+          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+            <span class="db db-d">Dataset D</span>
+            <span style="font-size:var(--fs-sub); color:var(--fog); font-weight:500; letter-spacing:.05em; text-transform:uppercase;">Australian Atlas of Disaster Losses</span>
+          </div>
+          <p style="line-height:1.88;">
+            Historical bushfire impact data — direct fire deaths, smoke-related fatalities, and homes destroyed across major fire events including Black Summer 2019-20.
+          </p>
+          <p style="margin-top:.35rem;">
+            <a href="https://digital.atlas.gov.au/pages/8b124790a8f54ccd9b3288288e21cfd2" target="_blank" rel="noopener" style="color:#7a5a38; text-decoration:underline;">digital.atlas.gov.au</a>
+          </p>
+          <p style="font-size:calc(var(--fs-meta) + .01rem); color:#3d2a14; margin-top:.4rem; font-style:italic;"></p>
+        </div>
+
       </div>
-      <div>
-        <h4>Data Sources</h4>
-        <ul>
-          <li><strong style="color:var(--heat);">Dataset A — NASA FIRMS</strong></li>
-          <li>Kaggle: Australian Bush Fire Satellite Data</li>
-          <li>kaggle.com/datasets/nagarajbhat</li>
-          <li style="margin-top:.5rem;"><strong style="color:#78b858;">Dataset B — BOM / CSIRO</strong></li>
-          <li>ACORN-SAT: bom.gov.au/climate/data</li>
-          <li>FFDI / Climate Statements: bom.gov.au/climate/change</li>
-          <li>CSIRO State of Climate: csiro.au/State-of-climate</li>
-          <li>CSIRO Projections: climatechangeinaustralia.gov.au</li>
-          <li style="margin-top:.5rem;"><strong style="color:#6ab0d8;">Dataset C — ABS / WWF / AIDR</strong></li>
-          <li>WWF Australia: wwf.org.au/3-billion-animals</li>
-          <li>AIDR Disaster Loss Database: aidr.org.au</li>
-          <li>Royal Commission 2020: royalcommission.gov.au</li>
-          <li style="margin-top:.5rem;">Geoscience Australia: ga.gov.au/hazards/bushfire</li>
-          <li>AFAC Situation Reports: afac.com.au</li>
-        </ul>
+
+      <!-- Aggregation note -->
+      <div style="background:rgba(255,255,255,.025); border:1px solid var(--bdr); border-radius:2px; padding:.7rem 1.1rem; max-width:900px;">
+        <p style="color:#eeeae6; line-height:1.85; font-style:italic;">
+          Note: several derived datasets used in this project including state fire totals, monthly fire aggregates, seasonal fire day counts, and waffle chart breakdowns are aggregations computed from one or more of the primary sources above rather than independently sourced files.
+        </p>
       </div>
     </div>
+
+    <!-- ── Footer bar ── -->
     <div class="footer-bar">
-      <span>Australia Burning: How Climate Change Reshaped Australia's Bushfire Crisis — FIT2179 Data Visualisation 2 · Monash University · 2026</span>
-      <span>Data: NASA FIRMS + BOM/CSIRO + WWF/AIDR · CC BY 4.0</span>
+      <span>Australia Burning: How Climate Change Reshaped Australia's Bushfire Crisis | FIT2179 Data Visualisation 2 · Monash University · 2026</span>
+      <span>Data: NASA FIRMS · BOM/CSIRO · ABARES · Australian Atlas of Disaster Losses</span>
     </div>
+
   </div>
 </footer>
 
@@ -934,13 +991,18 @@ footer ul li::before { content: '→ '; color: var(--ember); }
      VEGA-LITE CHART SCRIPTS
 ══════════════════════════════════════════════ -->
 <script>
-
-vegaEmbed('#v1', 'vis1.json', {actions: false});
-vegaEmbed('#v2', 'vis2.json', {actions: false});
-vegaEmbed('#v3', 'vis3.json', {actions: false});
-vegaEmbed('#v4', 'vis4.json', {actions: false});
-vegaEmbed('#v5', 'vis5.json', {actions: false});
-
+vegaEmbed('#v1',  '../specs/vis1.json',  {actions: false});
+vegaEmbed('#v2',  '../specs/vis2.json',  {actions: false});
+vegaEmbed('#v3',  '../specs/vis3.json',  {actions: false});
+vegaEmbed('#v4',  '../specs/vis4.json',  {actions: false});
+vegaEmbed('#v5',  '../specs/vis5.json',  {actions: false});
+vegaEmbed('#v6',  '../specs/vis6.json',  {actions: false});
+vegaEmbed('#v7',  '../specs/vis7.json',  {actions: false});
+vegaEmbed('#v8',  '../specs/vis8.json',  {actions: false});
+vegaEmbed('#v9',  '../specs/vis9.json',  {actions: false});
+vegaEmbed('#v10', '../specs/vis10.json', {actions: false});
+vegaEmbed('#v11', '../specs/vis11.json', {actions: false});
+vegaEmbed('#v12', '../specs/vis12.json', {actions: false});
 </script>
 </body>
 </html>
