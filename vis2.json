@@ -3,7 +3,7 @@
   "description": "Annual Mean Temperature Anomaly, Australia 1910–2023",
 
   "data": {
-    "url": "../Data/bom_temperature.csv"
+    "url": "bom_temperature.csv"
   },
 
   "transform": [
