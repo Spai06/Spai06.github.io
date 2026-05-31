@@ -3,7 +3,7 @@
   "width": 780,
   "height": 380,
   "background": "transparent",
-  "data": { "url": "../Data/abares_summary.csv" },
+  "data": { "url": "abares_summary.csv" },
   "transform": [
     { "filter": "datum.state !== 'NT'" },
     {
