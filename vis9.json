@@ -1,0 +1,108 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australian bushfire impact: homes & lives lost",
+    "subtitle": "Left: 1 square = 100 homes. Right: 1 square = 1 death. Tan = Pre-2000, Orange = Post-2000.",
+    "color": "white",
+    "subtitleColor": "#aaa",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "anchor": "start",
+    "offset": 10
+  },
+  "data": {"url": "waffle_data.csv"},
+  "config": {
+    "view": {"stroke": "transparent"},
+    "background": null,
+    "axis": {"disable": true},
+    "concat": {"spacing": 32}
+  },
+  "hconcat": [
+    {
+      "title": {"text": "Homes destroyed (1 sq = 100 homes)", "color": "white", "fontSize": 12, "anchor": "start"},
+      "transform": [
+        {"filter": "datum.unit_type == 'homes'"},
+        {"window": [{"op": "row_number", "as": "seq"}]},
+        {"calculate": "(datum.seq - 1) % 9", "as": "col"},
+        {"calculate": "floor((datum.seq - 1) / 9)", "as": "row"}
+      ],
+      "mark": {
+        "type": "square",
+        "size": 200,
+        "opacity": 0.9,
+        "stroke": "#1a1a1a",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "col", "type": "quantitative", "axis": null,
+          "scale": {"domain": [-0.5, 8.5], "nice": false}
+        },
+        "y": {
+          "field": "row", "type": "quantitative", "axis": null,
+          "scale": {"domain": [-0.5, 17.5], "reverse": true, "nice": false}
+        },
+        "color": {
+          "field": "era", "type": "nominal",
+          "scale": {"domain": ["Pre-2000", "Post-2000"], "range": ["#d98b58", "#cc3d00"]},
+          "legend": {
+            "title": "Era",
+            "titleColor": "white",
+            "labelColor": "white",
+            "orient": "top-right",
+            "titleFontSize": 13,
+            "labelFontSize": 12,
+            "symbolType": "square",
+            "symbolSize": 150,
+            "direction": "vertical"
+          }
+        },
+        "tooltip": [
+          {"field": "event", "title": "Fire event"},
+          {"field": "year", "title": "Year"},
+          {"field": "homes", "title": "Homes destroyed"}
+        ]
+      },
+      "width": 360,
+      "height": 360
+    },
+    {
+      "title": {"text": "Lives lost (1 sq = 1 death)", "color": "white", "fontSize": 12, "anchor": "start"},
+      "transform": [
+        {"filter": "datum.unit_type == 'deaths'"},
+        {"window": [{"op": "row_number", "as": "seq"}]},
+        {"calculate": "(datum.seq - 1) % 22", "as": "col"},
+        {"calculate": "floor((datum.seq - 1) / 22)", "as": "row"}
+      ],
+      "mark": {
+        "type": "square",
+        "size": 200,
+        "opacity": 0.9,
+        "stroke": "#1a1a1a",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "col", "type": "quantitative", "axis": null,
+          "scale": {"domain": [-0.5, 21.5], "nice": false}
+        },
+        "y": {
+          "field": "row", "type": "quantitative", "axis": null,
+          "scale": {"domain": [-0.5, 21.5], "reverse": true, "nice": false}
+        },
+        "color": {
+          "field": "era", "type": "nominal",
+          "scale": {"domain": ["Pre-2000", "Post-2000"], "range": ["#d98b58", "#cc3d00"]},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "event", "title": "Fire event"},
+          {"field": "year", "title": "Year"},
+          {"field": "deaths", "title": "Deaths"}
+        ]
+      },
+      "width": 360,
+      "height": 360
+    }
+  ]
+}

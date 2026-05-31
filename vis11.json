@@ -1,0 +1,252 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australia is Heading for More Extreme Fire Days",
+    "subtitle": "Projected % increase in extreme fire weather days by 2050 under RCP 8.5 (CSIRO)",
+    "color": "#e25822",
+    "subtitleColor": "#8b949e",
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12
+  },
+  "width": 850,
+  "height": 500,
+  "background": "#0d1117",
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/tonywr71/GeoJson-Data/master/australian-states.json",
+        "format": { "type": "json", "property": "features" }
+      },
+      "transform": [
+        {
+          "calculate": "datum.properties.STATE_NAME === 'New South Wales' ? 'NSW' : datum.properties.STATE_NAME === 'Victoria' ? 'VIC' : datum.properties.STATE_NAME === 'Queensland' ? 'QLD' : datum.properties.STATE_NAME === 'South Australia' ? 'SA' : datum.properties.STATE_NAME === 'Western Australia' ? 'WA' : datum.properties.STATE_NAME === 'Tasmania' ? 'TAS' : datum.properties.STATE_NAME === 'Northern Territory' ? 'NT' : 'ACT'",
+          "as": "state_abbrev"
+        },
+        {
+          "lookup": "state_abbrev",
+          "from": {
+            "data": {
+              "url": "../Data/csiro_projections.csv",
+              "format": {
+                "type": "csv",
+                "parse": { "pct_increase": "number" }
+              }
+            },
+            "key": "state",
+            "fields": ["pct_increase"]
+          }
+        },
+        {
+          "calculate": "datum.state_abbrev === 'TAS' ? 12.5 : datum.pct_increase",
+          "as": "pct_increase"
+        },
+        {
+          "calculate": "datum.pct_increase == null ? 'No data' : format(datum.pct_increase, '.1f') + '% increase'",
+          "as": "pct_label"
+        }
+      ],
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#3a3530",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.pct_increase == null",
+            "value": "#1f1b17"
+          },
+          "field": "pct_increase",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 40],
+            "range": ["#2a1a0a", "#7a2800", "#c04010", "#e25822", "#ffaa00"]
+          },
+          "legend": {
+            "title": "% increase in extreme fire days",
+            "titleColor": "#c9d1d9",
+            "labelColor": "#8b949e",
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "orient": "none",
+            "legendX": 40,
+            "legendY": 420,
+            "direction": "horizontal",
+            "gradientLength": 200,
+            "gradientThickness": 12,
+            "format": ".0f"
+          }
+        },
+        "tooltip": [
+          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" },
+          { "field": "pct_label", "type": "nominal", "title": "Projection" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "lon": 146.5, "lat": -32.5, "label": "NSW\n+31.8%", "dx": 5, "dy": -5 },
+          { "lon": 144.8, "lat": -36.8, "label": "VIC\n+29.1%", "dx": -18, "dy": 10 },
+          { "lon": 144.5, "lat": -22.5, "label": "QLD\n+7.8%", "dx": 0, "dy": 0 },
+          { "lon": 135.0, "lat": -30.0, "label": "SA\n+35.4%", "dx": 0, "dy": 0 },
+          { "lon": 121.6, "lat": -25.5, "label": "WA\n+16.3%", "dx": 0, "dy": 0 },
+          { "lon": 146.5, "lat": -42.0, "label": "TAS\n+12.5%", "dx": 0, "dy": 0 },
+          { "lon": 133.0, "lat": -20.0, "label": "NT\n+15.6%", "dx": 0, "dy": 0 },
+          { "lon": 149.1, "lat": -35.3, "label": "ACT\n+22.3%", "dx": 28, "dy": -12 }
+        ]
+      },
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "lineBreak": "\n",
+        "align": "center",
+        "baseline": "middle",
+        "color": "#ffffff",
+        "opacity": 0.9
+      },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" },
+        "text": { "field": "label", "type": "nominal" },
+        "dx": { "field": "dx", "type": "quantitative" },
+        "dy": { "field": "dy", "type": "quantitative" }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 155.0,
+            "lat": -25.5,
+            "text": "Eastern Coast Divergence\nSevere risk escalates down through\nNSW & ACT, while tropical QLD\nsees milder baseline updates."
+          }
+        ]
+      },
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "lineBreak": "\n",
+        "align": "left",
+        "baseline": "top",
+        "color": "#8b949e"
+      },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" },
+        "text": { "field": "text", "type": "nominal" }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "start_lon": 154.5, "start_lat": -26.0, "end_lon": 150.5, "end_lat": -29.0 }
+        ]
+      },
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#8b949e",
+        "strokeWidth": 1,
+        "strokeDash": [2, 2]
+      },
+      "encoding": {
+        "longitude": { "field": "start_lon", "type": "quantitative" },
+        "latitude": { "field": "start_lat", "type": "quantitative" },
+        "longitude2": { "field": "end_lon", "type": "quantitative" },
+        "latitude2": { "field": "end_lat", "type": "quantitative" }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 100.8,
+            "lat": -14.5,
+            "text": "North & West: A Fuel Trap\nWetter monsoons grow more grass;\nlonger dry seasons then burn it.\nRising temps extend the fire window."
+          }
+        ]
+      },
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "lineBreak": "\n",
+        "align": "left",
+        "baseline": "top",
+        "color": "#8b949e"
+      },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" },
+        "text": { "field": "text", "type": "nominal" }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "start_lon": 112.5, "start_lat": -19.5, "end_lon": 118.0, "end_lat": -22.5 }
+        ]
+      },
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-134, 0, 0],
+        "center": [0, -26.5],
+        "scale": 760
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#8b949e",
+        "strokeWidth": 1,
+        "strokeDash": [2, 2]
+      },
+      "encoding": {
+        "longitude": { "field": "start_lon", "type": "quantitative" },
+        "latitude": { "field": "start_lat", "type": "quantitative" },
+        "longitude2": { "field": "end_lon", "type": "quantitative" },
+        "latitude2": { "field": "end_lat", "type": "quantitative" }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": "transparent" }
+  }
+}

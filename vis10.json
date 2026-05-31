@@ -1,0 +1,248 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Black Summer Changed Everything",
+    "subtitle": "Area burned pre–Black Summer avg (2016–19) vs Black Summer (2019–20), by state — log scale",
+    "color": "#e25822",
+    "subtitleColor": "#8b949e",
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12
+  },
+  "width": 680,
+  "height": 360,
+  "background": "#0d1117",
+  "padding": {"left": 20, "right": 110, "top": 10, "bottom": 10},
+  "data": {
+    "url": "../Data/dumbbell_data.csv",
+    "format": {
+      "type": "csv",
+      "parse": {"hectares": "number"}
+    }
+  },
+  "transform": [
+    {
+      "calculate": "indexof(datum.era, '2019') >= 0 ? 'post' : 'pre'",
+      "as": "era_clean"
+    },
+    {
+      "pivot": "era_clean",
+      "value": "hectares",
+      "groupby": ["state"]
+    },
+    {"calculate": "datum.post / datum.pre", "as": "multiplier"},
+    {
+      "calculate": "datum.post > datum.pre ? (datum.multiplier >= 100 ? '×' + format(datum.multiplier, '.0f') : '×' + format(datum.multiplier, '.1f')) : '▼ ' + format((1 - datum.post/datum.pre)*100, '.0f') + '%'",
+      "as": "change_label"
+    },
+    {
+      "calculate": "max(datum.pre, datum.post)",
+      "as": "label_x"
+    },
+    {
+      "calculate": "datum.pre >= 1000000 ? format(datum.pre/1000000,'.2f')+'M ha' : datum.pre >= 1000 ? format(datum.pre/1000,'.0f')+'k ha' : format(datum.pre,'.0f')+' ha'",
+      "as": "pre_label"
+    },
+    {
+      "calculate": "datum.post >= 1000000 ? format(datum.post/1000000,'.2f')+'M ha' : datum.post >= 1000 ? format(datum.post/1000,'.0f')+'k ha' : format(datum.post,'.0f')+' ha'",
+      "as": "post_label"
+    },
+    {
+      "calculate": "(datum.post > datum.pre ? '+' : '') + format((datum.post - datum.pre)/datum.pre*100, '.0f') + '%'",
+      "as": "pct_label"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": {"field": "multiplier", "order": "descending"},
+      "axis": {
+        "title": null,
+        "labelColor": "#c9d1d9",
+        "labelFontSize": 14,
+        "labelFontWeight": "bold",
+        "ticks": false,
+        "domainColor": "#30363d",
+        "gridColor": "#21262d",
+        "gridOpacity": 0.35
+      }
+    },
+    "x": {
+      "field": "pre",
+      "type": "quantitative",
+      "scale": {"type": "log", "base": 10, "domain": [80, 12000000]},
+      "axis": {
+        "title": "Area burned (hectares, log scale)",
+        "titleColor": "#8b949e",
+        "titleFontSize": 12,
+        "labelColor": "#8b949e",
+        "labelFontSize": 11,
+        "format": "~s",
+        "gridColor": "#21262d",
+        "gridOpacity": 0.4,
+        "domainColor": "#30363d",
+        "tickColor": "#30363d",
+        "values": [100, 1000, 10000, 100000, 1000000, 10000000]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "opacity": 0.07, "color": "#4a9eda"},
+      "encoding": {
+        "x": {"datum": 80, "type": "quantitative"},
+        "x2": {"datum": 10000},
+        "y": {"value": 0},
+        "y2": {"value": 360}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "center", "baseline": "bottom", "fontSize": 11, "fontWeight": "bold", "opacity": 0.6},
+      "encoding": {
+        "text": {"value": "safe zone  <10k ha"},
+        "color": {"value": "#4a9eda"},
+        "x": {"value": 100},
+        "y": {"value": 348}
+      }
+    },
+    {
+      "mark": {"type": "rect", "opacity": 0.04, "color": "#e25822"},
+      "encoding": {
+        "x": {"datum": 1000000, "type": "quantitative"},
+        "x2": {"datum": 12000000},
+        "y": {"value": 0},
+        "y2": {"value": 360}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "center", "baseline": "bottom", "fontSize": 11, "fontWeight": "bold", "opacity": 0.7},
+      "encoding": {
+        "text": {"value": "crisis zone  >1M ha"},
+        "color": {"value": "#e25822"},
+        "x": {"value": 620},
+        "y": {"value": 348}
+      }
+    },
+    {
+      "transform": [{"filter": "datum.state == 'NSW'"}],
+      "mark": {"type": "rule", "color": "#8b949e", "strokeDash": [4, 4], "opacity": 0.5},
+      "encoding": {
+        "x": {"field": "post", "type": "quantitative"},
+        "x2": {"value": 80},
+        "y": {"field": "state", "type": "nominal"},
+        "y2": {"value": 115}
+      }
+    },
+    {
+      "mark": {"type": "rule", "strokeWidth": 2.5, "opacity": 0.8, "strokeCap": "round"},
+      "encoding": {
+        "x": {"field": "pre", "type": "quantitative"},
+        "x2": {"field": "post"},
+        "color": {
+          "condition": {"test": "datum.post > datum.pre", "value": "#e25822"},
+          "value": "#4a9eda"
+        },
+        "tooltip": [
+          {"field": "state",      "title": "State"},
+          {"field": "pre_label",  "title": "Avg 2016–19"},
+          {"field": "post_label", "title": "Black Summer"},
+          {"field": "pct_label",  "title": "% change"},
+          {"field": "multiplier", "type": "quantitative", "title": "× factor", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "size": 190, "filled": true, "opacity": 1, "strokeWidth": 1.5},
+      "encoding": {
+        "x": {"field": "pre", "type": "quantitative"},
+        "color": {"value": "#4a9eda"},
+        "stroke": {"value": "#0d1117"},
+        "tooltip": [
+          {"field": "state",      "title": "State"},
+          {"field": "pre_label",  "title": "Avg 2016–19"},
+          {"field": "post_label", "title": "Black Summer"},
+          {"field": "pct_label",  "title": "% change"},
+          {"field": "multiplier", "type": "quantitative", "title": "× factor", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "size": 190, "filled": true, "opacity": 1, "strokeWidth": 1.5},
+      "encoding": {
+        "x": {"field": "post", "type": "quantitative"},
+        "color": {
+          "condition": {"test": "datum.post > datum.pre", "value": "#e25822"},
+          "value": "#4a9eda"
+        },
+        "stroke": {"value": "#0d1117"},
+        "tooltip": [
+          {"field": "state",      "title": "State"},
+          {"field": "pre_label",  "title": "Avg 2016–19"},
+          {"field": "post_label", "title": "Black Summer"},
+          {"field": "pct_label",  "title": "% change"},
+          {"field": "multiplier", "type": "quantitative", "title": "× factor", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 12, "fontSize": 12, "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "label_x", "type": "quantitative"},
+        "text": {"field": "change_label"},
+        "color": {
+          "condition": {"test": "datum.post > datum.pre", "value": "#e25822"},
+          "value": "#4a9eda"
+        }
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "fontSize": 11, "fontWeight": "bold", "opacity": 0.95},
+      "encoding": {
+        "text": {"value": "NSW exploded from 190k ha"},
+        "color": {"value": "#e25822"},
+        "x": {"value": 15},
+        "y": {"value": 100}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "fontSize": 10, "opacity": 0.7},
+      "encoding": {
+        "text": {"value": "to 5.43M ha — a 28.6× surge driven"},
+        "color": {"value": "#8b949e"},
+        "x": {"value": 15},
+        "y": {"value": 110}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "fontSize": 10, "opacity": 0.7},
+      "encoding": {
+        "text": {"value": "by record drought & heat in 2019–20."},
+        "color": {"value": "#8b949e"},
+        "x": {"value": 15},
+        "y": {"value": 120}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "fontSize": 10, "opacity": 0.5, "fontStyle": "italic"},
+      "encoding": {
+        "text": {"value": "Hover each dumbbell for full detail."},
+        "color": {"value": "#8b949e"},
+        "x": {"value": 15},
+        "y": {"value": 130}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"labelLimit": 200},
+    "legend": {
+      "title": null,
+      "labelColor": "#8b949e",
+      "labelFontSize": 11,
+      "symbolSize": 80,
+      "orient": "bottom-left",
+      "offset": 10
+    }
+  }
+}

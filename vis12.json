@@ -1,0 +1,1468 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#0d1117",
+  "title": {
+    "text": "Explore Fire Activity Across Australia",
+    "subtitle": "Click a state bar to highlight its burn history \u2014 ABARES 2016\u20132021 fire seasons",
+    "color": "#e25822",
+    "subtitleColor": "#8b949e",
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "offset": 12
+  },
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "gridColor": "#21262d",
+      "domainColor": "#30363d",
+      "tickColor": "#30363d",
+      "labelColor": "#8b949e",
+      "titleColor": "#c9d1d9",
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    },
+    "legend": {
+      "disable": true
+    },
+    "font": "DM Sans, sans-serif"
+  },
+  "vconcat": [
+    {
+      "hconcat": [
+        {
+          "title": {
+            "text": "Total Area Burned by State",
+            "subtitle": "All seasons combined \u2014 click a bar",
+            "color": "#c9d1d9",
+            "subtitleColor": "#8b949e",
+            "fontSize": 13,
+            "subtitleFontSize": 10,
+            "anchor": "start"
+          },
+          "width": 300,
+          "height": 320,
+          "data": {
+            "values": [
+              {
+                "state": "NSW",
+                "total_ha": 6037346
+              },
+              {
+                "state": "NT",
+                "total_ha": 46669674
+              },
+              {
+                "state": "Qld",
+                "total_ha": 23034096
+              },
+              {
+                "state": "WA",
+                "total_ha": 2462554
+              },
+              {
+                "state": "Vic",
+                "total_ha": 1799306
+              },
+              {
+                "state": "SA",
+                "total_ha": 695247
+              },
+              {
+                "state": "Tas",
+                "total_ha": 303136
+              }
+            ]
+          },
+          "params": [
+            {
+              "name": "picked",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "state"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "bar",
+            "cornerRadiusEnd": 3,
+            "cursor": "pointer",
+            "minBandSize": 36
+          },
+          "encoding": {
+            "y": {
+              "field": "state",
+              "type": "nominal",
+              "sort": "-x",
+              "axis": {
+                "title": null,
+                "labelColor": "#c9d1d9",
+                "labelFontSize": 13,
+                "labelFontWeight": "bold",
+                "labelPadding": 8
+              }
+            },
+            "x": {
+              "field": "total_ha",
+              "type": "quantitative",
+              "axis": {
+                "title": "Hectares burned (all seasons)",
+                "format": "~s",
+                "labelAngle": -30
+              }
+            },
+            "color": {
+              "field": "state",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "NSW",
+                  "NT",
+                  "Qld",
+                  "SA",
+                  "Tas",
+                  "Vic",
+                  "WA"
+                ],
+                "range": [
+                  "#e25822",
+                  "#a3be8c",
+                  "#ebcb8b",
+                  "#81a1c1",
+                  "#b48ead",
+                  "#88c0d0",
+                  "#d08770"
+                ]
+              },
+              "condition": {
+                "param": "picked",
+                "empty": false
+              }
+            },
+            "opacity": {
+              "condition": {
+                "param": "picked",
+                "empty": true,
+                "value": 1
+              },
+              "value": 0.35
+            },
+            "tooltip": [
+              {
+                "field": "state",
+                "type": "nominal",
+                "title": "State"
+              },
+              {
+                "field": "total_ha",
+                "type": "quantitative",
+                "title": "Total hectares",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "title": {
+            "text": "Area Burned Per Season",
+            "subtitle": "Selected state highlights \u00b7 others fade to context \u00b7 2019\u201320 = Black Summer",
+            "color": "#c9d1d9",
+            "subtitleColor": "#8b949e",
+            "fontSize": 13,
+            "subtitleFontSize": 10,
+            "anchor": "start"
+          },
+          "width": 580,
+          "height": 320,
+          "data": {
+            "values": [
+              {
+                "state": "NSW",
+                "hectares": 276447,
+                "year": "2016-17"
+              },
+              {
+                "state": "NT",
+                "hectares": 4361511,
+                "year": "2016-17"
+              },
+              {
+                "state": "Qld",
+                "hectares": 6271872,
+                "year": "2016-17"
+              },
+              {
+                "state": "SA",
+                "hectares": 25257,
+                "year": "2016-17"
+              },
+              {
+                "state": "Tas",
+                "hectares": 37089,
+                "year": "2016-17"
+              },
+              {
+                "state": "Vic",
+                "hectares": 14491,
+                "year": "2016-17"
+              },
+              {
+                "state": "WA",
+                "hectares": 202003,
+                "year": "2016-17"
+              },
+              {
+                "state": "NSW",
+                "hectares": 22518,
+                "year": "2017-18"
+              },
+              {
+                "state": "NT",
+                "hectares": 18741262,
+                "year": "2017-18"
+              },
+              {
+                "state": "Qld",
+                "hectares": 4420894,
+                "year": "2017-18"
+              },
+              {
+                "state": "SA",
+                "hectares": 137440,
+                "year": "2017-18"
+              },
+              {
+                "state": "Tas",
+                "hectares": 10772,
+                "year": "2017-18"
+              },
+              {
+                "state": "Vic",
+                "hectares": 57277,
+                "year": "2017-18"
+              },
+              {
+                "state": "WA",
+                "hectares": 402289,
+                "year": "2017-18"
+              },
+              {
+                "state": "NSW",
+                "hectares": 271200,
+                "year": "2018-19"
+              },
+              {
+                "state": "NT",
+                "hectares": 11490473,
+                "year": "2018-19"
+              },
+              {
+                "state": "Qld",
+                "hectares": 4860362,
+                "year": "2018-19"
+              },
+              {
+                "state": "SA",
+                "hectares": 181395,
+                "year": "2018-19"
+              },
+              {
+                "state": "Tas",
+                "hectares": 210390,
+                "year": "2018-19"
+              },
+              {
+                "state": "Vic",
+                "hectares": 203718,
+                "year": "2018-19"
+              },
+              {
+                "state": "WA",
+                "hectares": 597328,
+                "year": "2018-19"
+              },
+              {
+                "state": "NSW",
+                "hectares": 5429872,
+                "year": "2019-20"
+              },
+              {
+                "state": "NT",
+                "hectares": 7830582,
+                "year": "2019-20"
+              },
+              {
+                "state": "Qld",
+                "hectares": 4383865,
+                "year": "2019-20"
+              },
+              {
+                "state": "SA",
+                "hectares": 319764,
+                "year": "2019-20"
+              },
+              {
+                "state": "Tas",
+                "hectares": 42554,
+                "year": "2019-20"
+              },
+              {
+                "state": "Vic",
+                "hectares": 1514686,
+                "year": "2019-20"
+              },
+              {
+                "state": "WA",
+                "hectares": 1183529,
+                "year": "2019-20"
+              },
+              {
+                "state": "NSW",
+                "hectares": 37309,
+                "year": "2020-21"
+              },
+              {
+                "state": "NT",
+                "hectares": 4245846,
+                "year": "2020-21"
+              },
+              {
+                "state": "Qld",
+                "hectares": 3097103,
+                "year": "2020-21"
+              },
+              {
+                "state": "SA",
+                "hectares": 31391,
+                "year": "2020-21"
+              },
+              {
+                "state": "Tas",
+                "hectares": 2331,
+                "year": "2020-21"
+              },
+              {
+                "state": "Vic",
+                "hectares": 9134,
+                "year": "2020-21"
+              },
+              {
+                "state": "WA",
+                "hectares": 77405,
+                "year": "2020-21"
+              }
+            ]
+          },
+          "layer": [
+            {
+              "mark": {
+                "type": "line",
+                "strokeWidth": 1.5,
+                "interpolate": "monotone",
+                "point": {
+                  "filled": true,
+                  "size": 40
+                }
+              },
+              "transform": [
+                {
+                  "filter": {
+                    "not": {
+                      "param": "picked"
+                    }
+                  }
+                }
+              ],
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ],
+                  "axis": {
+                    "title": "Fire Season",
+                    "labelAngle": -30
+                  }
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative",
+                  "axis": {
+                    "title": "Hectares Burned",
+                    "format": "~s"
+                  }
+                },
+                "color": {
+                  "field": "state",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "NSW",
+                      "NT",
+                      "Qld",
+                      "SA",
+                      "Tas",
+                      "Vic",
+                      "WA"
+                    ],
+                    "range": [
+                      "#e25822",
+                      "#a3be8c",
+                      "#ebcb8b",
+                      "#81a1c1",
+                      "#b48ead",
+                      "#88c0d0",
+                      "#d08770"
+                    ]
+                  }
+                },
+                "opacity": {
+                  "value": 0.15
+                },
+                "detail": {
+                  "field": "state",
+                  "type": "nominal"
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "line",
+                "strokeWidth": 2.8,
+                "interpolate": "monotone",
+                "point": {
+                  "filled": true,
+                  "size": 70
+                }
+              },
+              "transform": [
+                {
+                  "filter": {
+                    "param": "picked",
+                    "empty": true
+                  }
+                }
+              ],
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative"
+                },
+                "color": {
+                  "field": "state",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "NSW",
+                      "NT",
+                      "Qld",
+                      "SA",
+                      "Tas",
+                      "Vic",
+                      "WA"
+                    ],
+                    "range": [
+                      "#e25822",
+                      "#a3be8c",
+                      "#ebcb8b",
+                      "#81a1c1",
+                      "#b48ead",
+                      "#88c0d0",
+                      "#d08770"
+                    ]
+                  }
+                },
+                "detail": {
+                  "field": "state",
+                  "type": "nominal"
+                },
+                "tooltip": [
+                  {
+                    "field": "state",
+                    "type": "nominal",
+                    "title": "State"
+                  },
+                  {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Season"
+                  },
+                  {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "title": "Hectares burned",
+                    "format": ",.0f"
+                  }
+                ]
+              }
+            },
+            {
+              "mark": {
+                "type": "line",
+                "strokeWidth": 3.5,
+                "interpolate": "monotone",
+                "point": {
+                  "filled": true,
+                  "size": 90
+                }
+              },
+              "transform": [
+                {
+                  "filter": {
+                    "param": "picked"
+                  }
+                }
+              ],
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative"
+                },
+                "color": {
+                  "field": "state",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "NSW",
+                      "NT",
+                      "Qld",
+                      "SA",
+                      "Tas",
+                      "Vic",
+                      "WA"
+                    ],
+                    "range": [
+                      "#e25822",
+                      "#a3be8c",
+                      "#ebcb8b",
+                      "#81a1c1",
+                      "#b48ead",
+                      "#88c0d0",
+                      "#d08770"
+                    ]
+                  }
+                },
+                "detail": {
+                  "field": "state",
+                  "type": "nominal"
+                },
+                "tooltip": [
+                  {
+                    "field": "state",
+                    "type": "nominal",
+                    "title": "State"
+                  },
+                  {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Season"
+                  },
+                  {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "title": "Hectares burned",
+                    "format": ",.0f"
+                  }
+                ]
+              }
+            },
+            {
+              "transform": [
+                {
+                  "filter": {
+                    "param": "picked"
+                  }
+                },
+                {
+                  "joinaggregate": [
+                    {
+                      "op": "max",
+                      "field": "hectares",
+                      "as": "peak_ha"
+                    }
+                  ],
+                  "groupby": [
+                    "state"
+                  ]
+                },
+                {
+                  "filter": "datum.hectares === datum.peak_ha"
+                }
+              ],
+              "mark": {
+                "type": "point",
+                "filled": true,
+                "size": 140,
+                "color": "#ffaa00",
+                "opacity": 1
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative"
+                },
+                "tooltip": [
+                  {
+                    "field": "state",
+                    "type": "nominal",
+                    "title": "State"
+                  },
+                  {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Peak season"
+                  },
+                  {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "title": "Peak hectares",
+                    "format": ",.0f"
+                  }
+                ]
+              }
+            },
+            {
+              "transform": [
+                {
+                  "filter": {
+                    "param": "picked"
+                  }
+                },
+                {
+                  "joinaggregate": [
+                    {
+                      "op": "max",
+                      "field": "hectares",
+                      "as": "peak_ha"
+                    }
+                  ],
+                  "groupby": [
+                    "state"
+                  ]
+                },
+                {
+                  "filter": "datum.hectares === datum.peak_ha"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "center",
+                "baseline": "bottom",
+                "dy": -14,
+                "fontSize": 10,
+                "fontWeight": "bold",
+                "color": "#ffaa00"
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative"
+                },
+                "text": {
+                  "field": "hectares",
+                  "type": "quantitative",
+                  "format": ",.0f"
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "center",
+                "baseline": "bottom",
+                "dx": 10,
+                "fontSize": 13,
+                "fontWeight": "bold",
+                "dy": -14
+              },
+              "transform": [
+                {
+                  "filter": {
+                    "param": "picked"
+                  }
+                },
+                {
+                  "filter": "datum.year === '2020-21'"
+                }
+              ],
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "field": "hectares",
+                  "type": "quantitative"
+                },
+                "text": {
+                  "field": "state",
+                  "type": "nominal"
+                },
+                "color": {
+                  "field": "state",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "NSW",
+                      "NT",
+                      "Qld",
+                      "SA",
+                      "Tas",
+                      "Vic",
+                      "WA"
+                    ],
+                    "range": [
+                      "#e25822",
+                      "#a3be8c",
+                      "#ebcb8b",
+                      "#81a1c1",
+                      "#b48ead",
+                      "#88c0d0",
+                      "#d08770"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "rule",
+                "strokeDash": [
+                  4,
+                  3
+                ],
+                "strokeWidth": 1,
+                "color": "#e25822",
+                "opacity": 0.4
+              },
+              "data": {
+                "values": [
+                  {
+                    "year": "2019-20"
+                  }
+                ]
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "center",
+                "baseline": "top",
+                "dy": 25,
+                "fontSize": 12,
+                "fontStyle": "italic",
+                "fontWeight": "bold",
+                "color": "#e25822",
+                "opacity": 0.8
+              },
+              "data": {
+                "values": [
+                  {
+                    "year": "2019-20",
+                    "label": "\u25bc Black Summer"
+                  }
+                ]
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "sort": [
+                    "2016-17",
+                    "2017-18",
+                    "2018-19",
+                    "2019-20",
+                    "2020-21"
+                  ]
+                },
+                "y": {
+                  "value": 0
+                },
+                "text": {
+                  "field": "label",
+                  "type": "nominal"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "text": "Each State at a Glance \u2014 Area Burned Per Season",
+        "subtitle": "Click a season button below to highlight that year across all panels",
+        "color": "#c9d1d9",
+        "subtitleColor": "#8b949e",
+        "fontSize": 13,
+        "subtitleFontSize": 10,
+        "anchor": "start",
+        "offset": 16
+      },
+      "data": {
+        "values": [
+          {
+            "state": "NSW",
+            "hectares": 276447,
+            "year": "2016-17"
+          },
+          {
+            "state": "NT",
+            "hectares": 4361511,
+            "year": "2016-17"
+          },
+          {
+            "state": "Qld",
+            "hectares": 6271872,
+            "year": "2016-17"
+          },
+          {
+            "state": "SA",
+            "hectares": 25257,
+            "year": "2016-17"
+          },
+          {
+            "state": "Tas",
+            "hectares": 37089,
+            "year": "2016-17"
+          },
+          {
+            "state": "Vic",
+            "hectares": 14491,
+            "year": "2016-17"
+          },
+          {
+            "state": "WA",
+            "hectares": 202003,
+            "year": "2016-17"
+          },
+          {
+            "state": "NSW",
+            "hectares": 22518,
+            "year": "2017-18"
+          },
+          {
+            "state": "NT",
+            "hectares": 18741262,
+            "year": "2017-18"
+          },
+          {
+            "state": "Qld",
+            "hectares": 4420894,
+            "year": "2017-18"
+          },
+          {
+            "state": "SA",
+            "hectares": 137440,
+            "year": "2017-18"
+          },
+          {
+            "state": "Tas",
+            "hectares": 10772,
+            "year": "2017-18"
+          },
+          {
+            "state": "Vic",
+            "hectares": 57277,
+            "year": "2017-18"
+          },
+          {
+            "state": "WA",
+            "hectares": 402289,
+            "year": "2017-18"
+          },
+          {
+            "state": "NSW",
+            "hectares": 271200,
+            "year": "2018-19"
+          },
+          {
+            "state": "NT",
+            "hectares": 11490473,
+            "year": "2018-19"
+          },
+          {
+            "state": "Qld",
+            "hectares": 4860362,
+            "year": "2018-19"
+          },
+          {
+            "state": "SA",
+            "hectares": 181395,
+            "year": "2018-19"
+          },
+          {
+            "state": "Tas",
+            "hectares": 210390,
+            "year": "2018-19"
+          },
+          {
+            "state": "Vic",
+            "hectares": 203718,
+            "year": "2018-19"
+          },
+          {
+            "state": "WA",
+            "hectares": 597328,
+            "year": "2018-19"
+          },
+          {
+            "state": "NSW",
+            "hectares": 5429872,
+            "year": "2019-20"
+          },
+          {
+            "state": "NT",
+            "hectares": 7830582,
+            "year": "2019-20"
+          },
+          {
+            "state": "Qld",
+            "hectares": 4383865,
+            "year": "2019-20"
+          },
+          {
+            "state": "SA",
+            "hectares": 319764,
+            "year": "2019-20"
+          },
+          {
+            "state": "Tas",
+            "hectares": 42554,
+            "year": "2019-20"
+          },
+          {
+            "state": "Vic",
+            "hectares": 1514686,
+            "year": "2019-20"
+          },
+          {
+            "state": "WA",
+            "hectares": 1183529,
+            "year": "2019-20"
+          },
+          {
+            "state": "NSW",
+            "hectares": 37309,
+            "year": "2020-21"
+          },
+          {
+            "state": "NT",
+            "hectares": 4245846,
+            "year": "2020-21"
+          },
+          {
+            "state": "Qld",
+            "hectares": 3097103,
+            "year": "2020-21"
+          },
+          {
+            "state": "SA",
+            "hectares": 31391,
+            "year": "2020-21"
+          },
+          {
+            "state": "Tas",
+            "hectares": 2331,
+            "year": "2020-21"
+          },
+          {
+            "state": "Vic",
+            "hectares": 9134,
+            "year": "2020-21"
+          },
+          {
+            "state": "WA",
+            "hectares": 77405,
+            "year": "2020-21"
+          }
+        ]
+      },
+      "vconcat": [
+        {
+          "width": 910,
+          "height": 1,
+          "view": {
+            "fill": "transparent",
+            "stroke": "transparent"
+          },
+          "data": {
+            "values": [
+              {
+                "year": "2016-17"
+              },
+              {
+                "year": "2017-18"
+              },
+              {
+                "year": "2018-19"
+              },
+              {
+                "year": "2019-20"
+              },
+              {
+                "year": "2020-21"
+              }
+            ]
+          },
+          "params": [
+            {
+              "name": "yearPicked",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "year"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              },
+              "bind": {
+                "input": "select",
+                "options": [
+                  null,
+                  "2016-17",
+                  "2017-18",
+                  "2018-19",
+                  "2019-20",
+                  "2020-21"
+                ],
+                "labels": [
+                  "All seasons",
+                  "2016-17",
+                  "2017-18",
+                  "2018-19",
+                  "2019-20",
+                  "2020-21"
+                ],
+                "name": "Highlight season: "
+              }
+            }
+          ],
+          "mark": {
+            "type": "point",
+            "opacity": 0
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "ordinal",
+              "axis": {
+                "labelAngle": 0,
+                "title": null,
+                "labelColor": "#8b949e",
+                "labelFontSize": 11
+              }
+            },
+            "y": {
+              "value": 0
+            }
+          }
+        },
+        {
+          "facet": {
+            "field": "state",
+            "type": "nominal",
+            "sort": [
+              "NT",
+              "Qld",
+              "NSW",
+              "WA",
+              "Vic",
+              "SA",
+              "Tas"
+            ],
+            "header": {
+              "labelColor": "#c9d1d9",
+              "labelFontSize": 13,
+              "labelFontWeight": "bold",
+              "labelPadding": 6,
+              "title": null
+            }
+          },
+          "columns": 7,
+          "spec": {
+            "width": 120,
+            "height": 100,
+            "layer": [
+              {
+                "mark": {
+                  "type": "bar",
+                  "color": "#1a0800",
+                  "opacity": 1
+                },
+                "transform": [
+                  {
+                    "filter": "datum.year === '2019-20'"
+                  }
+                ],
+                "encoding": {
+                  "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "sort": [
+                      "2016-17",
+                      "2017-18",
+                      "2018-19",
+                      "2019-20",
+                      "2020-21"
+                    ],
+                    "axis": null
+                  },
+                  "y": {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "scale": {
+                      "domain": [
+                        0,
+                        20000000
+                      ]
+                    },
+                    "axis": null
+                  },
+                  "x2": {
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "mark": {
+                  "type": "rule",
+                  "strokeWidth": 10,
+                  "opacity": 0.25,
+                  "color": "#e25822"
+                },
+                "transform": [
+                  {
+                    "filter": {
+                      "param": "yearPicked"
+                    }
+                  }
+                ],
+                "encoding": {
+                  "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "sort": [
+                      "2016-17",
+                      "2017-18",
+                      "2018-19",
+                      "2019-20",
+                      "2020-21"
+                    ]
+                  }
+                }
+              },
+              {
+                "mark": {
+                  "type": "area",
+                  "interpolate": "monotone",
+                  "opacity": 0.3,
+                  "line": false
+                },
+                "encoding": {
+                  "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "sort": [
+                      "2016-17",
+                      "2017-18",
+                      "2018-19",
+                      "2019-20",
+                      "2020-21"
+                    ],
+                    "axis": {
+                      "title": null,
+                      "labelAngle": 0,
+                      "labelFontSize": 7,
+                      "labelColor": "#4a4030",
+                      "tickColor": "#4a4030",
+                      "domainColor": "#4a4030",
+                      "labelOverlap": "parity"
+                    }
+                  },
+                  "y": {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "scale": {
+                      "domain": [
+                        0,
+                        20000000
+                      ]
+                    },
+                    "axis": {
+                      "title": null,
+                      "format": "~s",
+                      "labelFontSize": 8,
+                      "labelColor": "#4a4030",
+                      "tickCount": 3
+                    }
+                  },
+                  "color": {
+                    "field": "state",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": [
+                        "NSW",
+                        "NT",
+                        "Qld",
+                        "SA",
+                        "Tas",
+                        "Vic",
+                        "WA"
+                      ],
+                      "range": [
+                        "#e25822",
+                        "#a3be8c",
+                        "#ebcb8b",
+                        "#81a1c1",
+                        "#b48ead",
+                        "#88c0d0",
+                        "#d08770"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "mark": {
+                  "type": "line",
+                  "interpolate": "monotone",
+                  "strokeWidth": 2
+                },
+                "encoding": {
+                  "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "sort": [
+                      "2016-17",
+                      "2017-18",
+                      "2018-19",
+                      "2019-20",
+                      "2020-21"
+                    ]
+                  },
+                  "y": {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "scale": {
+                      "domain": [
+                        0,
+                        20000000
+                      ]
+                    }
+                  },
+                  "color": {
+                    "field": "state",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": [
+                        "NSW",
+                        "NT",
+                        "Qld",
+                        "SA",
+                        "Tas",
+                        "Vic",
+                        "WA"
+                      ],
+                      "range": [
+                        "#e25822",
+                        "#a3be8c",
+                        "#ebcb8b",
+                        "#81a1c1",
+                        "#b48ead",
+                        "#88c0d0",
+                        "#d08770"
+                      ]
+                    }
+                  },
+                  "tooltip": [
+                    {
+                      "field": "state",
+                      "type": "nominal",
+                      "title": "State"
+                    },
+                    {
+                      "field": "year",
+                      "type": "ordinal",
+                      "title": "Season"
+                    },
+                    {
+                      "field": "hectares",
+                      "type": "quantitative",
+                      "title": "Hectares burned",
+                      "format": ",.0f"
+                    }
+                  ]
+                }
+              },
+              {
+                "mark": {
+                  "type": "point",
+                  "filled": true,
+                  "size": 40,
+                  "opacity": 0.9
+                },
+                "encoding": {
+                  "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "sort": [
+                      "2016-17",
+                      "2017-18",
+                      "2018-19",
+                      "2019-20",
+                      "2020-21"
+                    ]
+                  },
+                  "y": {
+                    "field": "hectares",
+                    "type": "quantitative",
+                    "scale": {
+                      "domain": [
+                        0,
+                        20000000
+                      ]
+                    }
+                  },
+                  "color": {
+                    "field": "state",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": [
+                        "NSW",
+                        "NT",
+                        "Qld",
+                        "SA",
+                        "Tas",
+                        "Vic",
+                        "WA"
+                      ],
+                      "range": [
+                        "#e25822",
+                        "#a3be8c",
+                        "#ebcb8b",
+                        "#81a1c1",
+                        "#b48ead",
+                        "#88c0d0",
+                        "#d08770"
+                      ]
+                    }
+                  },
+                  "size": {
+                    "condition": {
+                      "param": "yearPicked",
+                      "empty": false,
+                      "value": 130
+                    },
+                    "value": 40
+                  },
+                  "opacity": {
+                    "condition": {
+                      "param": "yearPicked",
+                      "empty": true,
+                      "value": 0.9
+                    },
+                    "value": 0.2
+                  },
+                  "tooltip": [
+                    {
+                      "field": "state",
+                      "type": "nominal",
+                      "title": "State"
+                    },
+                    {
+                      "field": "year",
+                      "type": "ordinal",
+                      "title": "Season"
+                    },
+                    {
+                      "field": "hectares",
+                      "type": "quantitative",
+                      "title": "Hectares burned",
+                      "format": ",.0f"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

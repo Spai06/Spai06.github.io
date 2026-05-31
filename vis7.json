@@ -1,0 +1,178 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 450,
+  "background": "transparent",
+  "padding": {"left": 60, "right": 30, "top": 10, "bottom": 10},
+  "title": {
+    "text": "Temperature Anomaly vs Annual Fire Danger Intensity by Decade",
+    "subtitle": "Dots climb chronologically bottom-to-top (0 to 9) · Circle size scales with Fire Danger Intensity (FFDI)",
+    "color": "#d8d0c4",
+    "subtitleColor": "#9f9484",
+    "font": "DM Sans, sans-serif",
+    "fontSize": 16,
+    "anchor": "start",
+    "offset": 20
+  },
+  "data": { "url": "../Data/vis7_data.csv" },
+  "transform": [
+    {
+      "filter": "datum.decade == '1970s' || datum.decade == '1980s' || datum.decade == '1990s' || datum.decade == '2000s' || datum.decade == '2010s'"
+    },
+    {
+      "window": [{"op": "rank", "as": "year_rank"}],
+      "groupby": ["decade"],
+      "sort": [{"field": "year", "order": "ascending"}]
+    },
+    {
+      "calculate": "14 + (datum.year_rank - 1) * 0.9",
+      "as": "y_timeline"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "opacity": 0.85,
+        "stroke": "#1a1208",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "decade",
+          "type": "ordinal",
+          "scale": {
+            "type": "point",
+            "domain": ["1970s", "1980s", "1990s", "2000s", "2010s"],
+            "padding": 0.6
+          },
+          "axis": {
+            "title": "Decade",
+            "labelColor": "#b2a48e",
+            "labelFontSize": 13,
+            "labelFontWeight": "bold",
+            "labelAngle": 0,
+            "titleColor": "#b2a48e",
+            "titleFontSize": 12,
+            "tickColor": "#4a4030",
+            "domainColor": "#4a4030",
+            "gridColor": "#2e2619",
+            "gridOpacity": 0.5
+          }
+        },
+        "y": {
+          "field": "y_timeline",
+          "type": "quantitative",
+          "scale": {"domain": [13, 26]},
+          "axis": {
+            "title": "Timeline Position (Earliest Year at Bottom → Latest at Top)",
+            "titleColor": "#b2a48e",
+            "labelColor": "#b2a48e",
+            "gridColor": "#2e2619",
+            "gridOpacity": 0.5,
+            "titleFontSize": 12,
+            "tickColor": "#4a4030",
+            "domainColor": "#4a4030",
+            "values": [14, 16, 18, 20, 22, 24]
+          }
+        },
+        "color": {
+          "field": "anomaly",
+          "type": "quantitative",
+          "scale": {
+            "domain": [-0.9, 0, 1.4],
+            "range": ["#4a90d9", "#e6c84a", "#d62728"]
+          },
+          "legend": {
+            "title": "Temp Anomaly (°C)",
+            "titleColor": "#b2a48e",
+            "labelColor": "#b2a48e",
+            "orient": "right",
+            "gradientLength": 120,
+            "gradientThickness": 12,
+            "tickCount": 5,
+            "offset": 15
+          }
+        },
+        "size": {
+          "field": "ffdi_90th",
+          "type": "quantitative",
+          "scale": { "domain": [13, 25], "range": [100, 550] },
+          "legend": {
+            "title": "Fire Intensity (FFDI)",
+            "titleColor": "#b2a48e",
+            "labelColor": "#b2a48e",
+            "orient": "right",
+            "offset": 15,
+            "clipHeight": 30
+          }
+        },
+        "tooltip": [
+          { "field": "year", "title": "Year" },
+          { "field": "decade", "title": "Decade" },
+          { "field": "anomaly", "title": "Temp Anomaly (°C)", "format": ".2f" },
+          { "field": "ffdi_90th", "title": "FFDI 90th Percentile", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.year == 2009" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 16,
+        "dy": 2,
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "fontWeight": "bold",
+        "color": "#d62728"
+      },
+      "encoding": {
+        "x": { "field": "decade", "type": "ordinal" },
+        "y": { "field": "y_timeline", "type": "quantitative" },
+        "text": { "value": "◀ 2009 Black Saturday" }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.year == 1974" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 14,
+        "dy": 0,
+        "lineHeight": 13,
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#4a90d9"
+      },
+      "encoding": {
+        "x": { "field": "decade", "type": "ordinal" },
+        "y": { "field": "y_timeline", "type": "quantitative" },
+        "text": { "value": ["◀ Wet/Grassfire Year", "    1974"] }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.year == 1989" }],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -20,
+        "lineHeight": 13,
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#b2a48e"
+      },
+      "encoding": {
+        "x": { "field": "decade", "type": "ordinal" },
+        "y": { "value": 115 },
+        "text": { "value": ["1989 Strong La Niña", "Low Fire Danger Peak", "▼"] }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": "transparent" },
+    "font": "DM Sans, sans-serif"
+  }
+}
