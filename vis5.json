@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Fire Danger Index Heatmap Strip, Southern Australia 1971–2017",
   "data": {
-    "url": "../Data/ffdi_annual.csv"
+    "url": "ffdi_annual.csv"
   },
   "width": "container",
   "height": 180,
