@@ -27,7 +27,7 @@
           "lookup": "state_abbrev",
           "from": {
             "data": {
-              "url": "../Data/csiro_projections.csv",
+              "url": "csiro_projections.csv",
               "format": {
                 "type": "csv",
                 "parse": { "pct_increase": "number" }
