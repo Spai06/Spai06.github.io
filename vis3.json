@@ -3,7 +3,7 @@
   "description": "Rainfall anomaly 2D heatmap (Year x Decade structure)",
 
   "data": {
-    "url": "bom_rainfall.csv",
+    "url": "../Data/bom_rainfall.csv",
     "format": { "type": "csv" }
   },
 
