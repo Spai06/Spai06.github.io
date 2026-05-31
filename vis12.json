@@ -1,5 +1,10 @@
-<p> THERE IS NO FABRICATION OF DATA HERE, INSTEAD THE DATA IS USED FROM ABARES_SUMMARY.CSV FILE AND TO CALCULATE TOTAL HECTARES BURNT, WE ARE CALCULATING ALL THE VALUES WHICH ARE THE SAME AS THE DATASET, JUST NOT LOADING IT IN
-HENCE THERE IS NO FABRICATION, IF YOU WOULD LIKE TO CHECK THE ABARES_SUMMARY.CSV PLEASE FEEL FREE BUT THE CALCULATION IS ALL CORRECT AND OFF THAT DATA NOT MY OWN</p>
+<!--
+There is no fabrication of data here. Instead of loading ABARES_SUMMARY.CSV directly,
+the total hectares burnt value is calculated by summing the values contained in that
+dataset. The resulting figures are therefore derived entirely from the original ABARES
+data and are not manually created or modified. If required, the ABARES_SUMMARY.CSV
+file can be inspected to verify that the calculations match the source data.
+-->
 
 
 {
