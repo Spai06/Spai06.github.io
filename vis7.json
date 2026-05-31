@@ -14,7 +14,7 @@
     "anchor": "start",
     "offset": 20
   },
-  "data": { "url": "../Data/vis7_data.csv" },
+  "data": { "url": "vis7_data.csv" },
   "transform": [
     {
       "filter": "datum.decade == '1970s' || datum.decade == '1980s' || datum.decade == '1990s' || datum.decade == '2000s' || datum.decade == '2010s'"
