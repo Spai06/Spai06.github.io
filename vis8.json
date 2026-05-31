@@ -4,7 +4,7 @@
   "height": 450,
   "background": "transparent",
   "padding": {"left": 30, "right": 20, "top": 20, "bottom": 10},
-  "data": { "url": "../Data/abares_summary.csv" },
+  "data": { "url": "abares_summary.csv" },
   "transform": [
     { "filter": "datum.state !== 'NT'" }
   ],
